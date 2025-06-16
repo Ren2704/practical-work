@@ -9,8 +9,7 @@ import java.util.Optional;
 
 public interface AchievementsService {
     List<AchievementsEntity> findAll();
-    Optional<AchievementsEntity> findById(Long id);
+    List<AchievementsEntity> findByPersonId(Long id);
     AchievementsEntity create(AchievementsCreateRequest achievementsCreateRequest);
     AchievementsEntity update(AchievementsUpdateRequest achievementsUpdateRequest);
-    void delete(Long id);
 }

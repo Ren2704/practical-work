@@ -1,10 +1,13 @@
 openapi: 3.0.1
+
 info:
   title: OpenAPI definition
   version: v0
+
 servers:
   - url: http://localhost:8080
     description: Generated server url
+
 paths:
   /users:
     get:
@@ -113,10 +116,10 @@ paths:
           description: Внутренняя ошибка сервера
           content:
             application/json: {}
-  /scientificFields:
+  /edacationSubject:
     get:
       tags:
-        - scientific-fields-controller
+        - edacation-subject-controller
       summary: Отобразить все возможные научные направления и людей, к которым они относятся
       operationId: findAll_1
       responses:
@@ -134,7 +137,7 @@ paths:
             application/json: {}
     put:
       tags:
-        - scientific-fields-controller
+        - edacation-subject-controller
       summary: Изменить информацию о научном направлении
       operationId: update_1
       parameters:
@@ -172,7 +175,7 @@ paths:
             application/json: {}
     post:
       tags:
-        - scientific-fields-controller
+        - edacation-subject-controller
       summary: Создать новое научное направление
       operationId: create_1
       parameters:
@@ -188,117 +191,6 @@ paths:
           required: true
           schema:
             type: string
-      responses:
-        200:
-          description: Внесение в бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /publications:
-    get:
-      tags:
-        - publications-controller
-      summary: Отобразить все возможные публикации
-      operationId: findAll_2
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    put:
-      tags:
-        - publications-controller
-      summary: Изменить запись публикации по id
-      operationId: update_2
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-        - name: title
-          in: query
-          description: Название
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: query
-          description: Год издания
-          required: true
-          schema:
-            type: number
-        - name: link
-          in: query
-          description: Ссылка на публикацию
-          required: true
-          schema:
-            type: string
-        - name: personId
-          in: query
-          description: ID сотрудника
-          required: true
-          schema:
-            type: number
-      responses:
-        200:
-          description: Изменение информации о публикации
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    post:
-      tags:
-        - publications-controller
-      summary: Создать новую запись про публикацию
-      operationId: create_2
-      parameters:
-        - name: title
-          in: query
-          description: Название
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: query
-          description: Год издания
-          required: true
-          schema:
-            type: number
-        - name: link
-          in: query
-          description: Ссылка на публикацию
-          required: true
-          schema:
-            type: string
-        - name: personId
-          in: query
-          description: ID сотрудника
-          required: true
-          schema:
-            type: number
       responses:
         200:
           description: Внесение в бд данных
@@ -1044,10 +936,10 @@ paths:
           description: Внутренняя ошибка сервера
           content:
             application/json: {}
-  /scientificFields/{id}:
+  /edacationSubject/{id}:
     get:
       tags:
-        - scientific-fields-controller
+        - edacation-subject-controller
       summary: Найти всех выдающихся людей по научному направлению
       operationId: findById_1
       parameters:
@@ -1073,62 +965,9 @@ paths:
             application/json: {}
     delete:
       tags:
-        - scientific-fields-controller
+        - edacation-subject-controller
       summary: Удалить научное направление по ID
       operationId: delete_1
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Удаление из базы данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /publications/{id}:
-    get:
-      tags:
-        - publications-controller
-      summary: Найти публикацию по id
-      operationId: findById_2
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - publications-controller
-      summary: Удалить публикацию по ID
-      operationId: delete_2
       parameters:
         - name: id
           in: path
@@ -1468,4 +1307,4 @@ paths:
           description: Внутренняя ошибка сервера
           content:
             application/json: {}
-components: {}
+

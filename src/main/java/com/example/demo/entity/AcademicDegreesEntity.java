@@ -12,8 +12,8 @@ import java.util.Set;
 @Setter
 @Getter
 
-@EqualsAndHashCode(exclude = {"outstandingPersonEntities"})
-@ToString(exclude = {"outstandingPersonEntities"})
+@EqualsAndHashCode(exclude = {"person"})
+@ToString(exclude = {"person"})
 
 @Builder
 @Entity
@@ -31,7 +31,12 @@ public class AcademicDegreesEntity {
     @Column (name = "short_name")
     private String shortName;
 
+    @Column
+    @Builder.Default
+    private Boolean display = true;
+
     @OneToMany(mappedBy = "academicDegrees", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private Set<OutstandingPeopleEntity> outstandingPersonEntities = Collections.emptySet();
+    @Builder.Default
+    private Set<OutstandingPeopleEntity> person = Collections.emptySet();
 }

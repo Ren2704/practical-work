@@ -24,34 +24,23 @@ public class EducationSubjectServiceImpl implements EducationSubjectService {
 
     @Override
     public List<EducationSubjectEntity> findAll() {
-        return educationSubjectRepository.findAll();
+        return educationSubjectRepository.findByDisplayTrueOrderByNameAsc();
     }
-
-    @Override
-    public Optional<EducationSubjectEntity> findById(Long id) {
-        return educationSubjectRepository.findById(id);
-    }
-
     @Override
     public EducationSubjectEntity create(EducationSubjectCreateRequest educationSubjectCreateRequest) {
-        EducationSubjectEntity educationSubjectEntity = new EducationSubjectEntity();
-        educationSubjectEntity = educationSubjectMapper.requestMapToEducationSubject(educationSubjectEntity, educationSubjectCreateRequest);
-        return educationSubjectRepository.save(educationSubjectEntity);
+        EducationSubjectEntity educationSubject = new EducationSubjectEntity();
+        educationSubject = educationSubjectMapper.requestMapToEducationSubject(educationSubject, educationSubjectCreateRequest);
+        return educationSubjectRepository.save(educationSubject);
     }
 
     @Override
     public EducationSubjectEntity update(EducationSubjectUpdateRequest educationSubjectUpdateRequest) {
-        Optional<EducationSubjectEntity> optionalScientificFields = educationSubjectRepository.findById(educationSubjectUpdateRequest.getId());
+        Optional<EducationSubjectEntity> optionalScientificFields = educationSubjectRepository.findByIdAndDisplayTrue(educationSubjectUpdateRequest.getId());
         if (optionalScientificFields.isPresent()) {
-            EducationSubjectEntity educationSubjectEntity = optionalScientificFields.get();
-            educationSubjectEntity = educationSubjectMapper.requestMapToEducationSubject(educationSubjectEntity, educationSubjectUpdateRequest);
-            return educationSubjectRepository.save(educationSubjectEntity);
+            EducationSubjectEntity educationSubject = optionalScientificFields.get();
+            educationSubject = educationSubjectMapper.requestMapToEducationSubject(educationSubject, educationSubjectUpdateRequest);
+            return educationSubjectRepository.save(educationSubject);
         }
         return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-        educationSubjectRepository.deleteById(id);
     }
 }

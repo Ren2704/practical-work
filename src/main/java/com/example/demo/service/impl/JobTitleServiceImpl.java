@@ -24,34 +24,24 @@ public class JobTitleServiceImpl implements JobTitleService {
 
     @Override
     public List<JobTitleEntity> findAll() {
-        return jobTitleRepository.findAll();
-    }
-
-    @Override
-    public Optional<JobTitleEntity> findById(Long id) {
-        return jobTitleRepository.findById(id);
+        return jobTitleRepository.findByDisplayTrueOrderByNameAsc();
     }
 
     @Override
     public JobTitleEntity create(JobTitleCreateRequest jobTitleCreateRequest) {
-        JobTitleEntity jobTitleEntity = new JobTitleEntity();
-        jobTitleEntity = jobTitleMapper.requestMapToJobTitle(jobTitleEntity, jobTitleCreateRequest);
-        return jobTitleRepository.save(jobTitleEntity);
+        JobTitleEntity jobTitle = new JobTitleEntity();
+        jobTitle = jobTitleMapper.requestMapToJobTitle(jobTitle, jobTitleCreateRequest);
+        return jobTitleRepository.save(jobTitle);
     }
 
     @Override
     public JobTitleEntity update(JobTitleUpdateRequest jobTitleUpdateRequest) {
-        Optional<JobTitleEntity> optionalJobTitle = jobTitleRepository.findById(jobTitleUpdateRequest.getId());
+        Optional<JobTitleEntity> optionalJobTitle = jobTitleRepository.findByIdAndDisplayTrue(jobTitleUpdateRequest.getId());
         if (optionalJobTitle.isPresent()) {
-            JobTitleEntity jobTitleEntity = optionalJobTitle.get();
-            jobTitleEntity = jobTitleMapper.requestMapToJobTitle(jobTitleEntity, jobTitleUpdateRequest);
-            return jobTitleRepository.save(jobTitleEntity);
+            JobTitleEntity jobTitle = optionalJobTitle.get();
+            jobTitle = jobTitleMapper.requestMapToJobTitle(jobTitle, jobTitleUpdateRequest);
+            return jobTitleRepository.save(jobTitle);
         }
         return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-        jobTitleRepository.deleteById(id);
     }
 }

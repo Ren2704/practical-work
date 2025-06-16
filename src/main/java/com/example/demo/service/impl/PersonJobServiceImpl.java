@@ -13,37 +13,39 @@ import java.util.Optional;
 
 @Service
 public class PersonJobServiceImpl implements PersonJobService {
-    private final PersonJobRepository personJobRepository; private final PersonJobMapper personJobMapper;
+    private final PersonJobRepository personJobRepository;
+    private final PersonJobMapper personJobMapper;
+
     public PersonJobServiceImpl(PersonJobRepository personJobRepository, PersonJobMapper personJobMapper) {
         this.personJobRepository = personJobRepository;
         this.personJobMapper = personJobMapper;
     }
+
     @Override
-    public List<PersonJobEntity> findAll() {
-        return personJobRepository.findAll();
+    public List<PersonJobEntity> findByPersonId(Long personId) {
+        return personJobRepository.findByPersonIdAndDisplayTrueOrderByStartYearDesc(personId);
     }
+
     @Override
-    public Optional<PersonJobEntity> findById(Long id) {
-        return personJobRepository.findById(id);
+    public Optional<PersonJobEntity> findByPersonIdAndCurrent(Long personId) {
+        return personJobRepository.findByPersonIdAndCurrentTrueAndDisplayTrue(personId);
     }
+
     @Override
     public PersonJobEntity create(PersonJobCreateRequest personJobCreateRequest) {
-        PersonJobEntity personJobEntity = new PersonJobEntity();
-        personJobEntity = personJobMapper.requestMapToPersonJob(personJobEntity, personJobCreateRequest);
-        return personJobRepository.save(personJobEntity);
+        PersonJobEntity personJob = new PersonJobEntity();
+        personJob = personJobMapper.requestMapToPersonJob(personJob, personJobCreateRequest);
+        return personJobRepository.save(personJob);
     }
+
     @Override
     public PersonJobEntity update(PersonJobUpdateRequest personJobUpdateRequest) {
-        Optional<PersonJobEntity> optionalPersonJob = personJobRepository.findById(personJobUpdateRequest.getId());
+        Optional<PersonJobEntity> optionalPersonJob = personJobRepository.findByIdAndDisplayTrue(personJobUpdateRequest.getId());
         if (optionalPersonJob.isPresent()) {
-            PersonJobEntity personJobEntity = optionalPersonJob.get();
-            personJobEntity = personJobMapper.requestMapToPersonJob(personJobEntity, personJobUpdateRequest);
-            return personJobRepository.save(personJobEntity);
+            PersonJobEntity personJob = optionalPersonJob.get();
+            personJob = personJobMapper.requestMapToPersonJob(personJob, personJobUpdateRequest);
+            return personJobRepository.save(personJob);
         }
         return null;
-    }
-    @Override
-    public void delete(Long id) {
-        personJobRepository.deleteById(id);
     }
 }

@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface EducationSubjectService {
     List<EducationSubjectEntity> findAll();
-    Optional<EducationSubjectEntity> findById(Long id);
     EducationSubjectEntity create(EducationSubjectCreateRequest educationSubjectCreateRequest);
     EducationSubjectEntity update(EducationSubjectUpdateRequest educationSubjectUpdateRequest);
-    void delete(Long id);
 }

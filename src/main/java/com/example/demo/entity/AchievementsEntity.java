@@ -31,6 +31,10 @@ public class AchievementsEntity {
     @Column
     private String description;
 
+    @Column
+    @Builder.Default
+    private Boolean display = true;
+
     @ManyToOne
     @JoinColumn(name = "id_person", nullable = false)
     @JsonBackReference

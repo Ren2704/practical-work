@@ -24,34 +24,29 @@ public class AchievementsServiceImpl implements AchievementsService {
 
     @Override
     public List<AchievementsEntity> findAll() {
-        return achievementsRepository.findAll();
+        return achievementsRepository.findByDisplayTrueOrderByYearDesc();
     }
 
     @Override
-    public Optional<AchievementsEntity> findById(Long id) {
-        return achievementsRepository.findById(id);
+    public List<AchievementsEntity> findByPersonId(Long id) {
+        return achievementsRepository.findByPersonIdAndDisplayTrueOrderByYearDesc(id);
     }
 
     @Override
     public AchievementsEntity create(AchievementsCreateRequest achievementsCreateRequest) {
-        AchievementsEntity achievementsEntity = new AchievementsEntity();
-        achievementsEntity = achievementsMapper.requestMapToAchievements(achievementsEntity, achievementsCreateRequest);
-        return achievementsRepository.save(achievementsEntity);
+        AchievementsEntity achievements = new AchievementsEntity();
+        achievements = achievementsMapper.requestMapToAchievements(achievements, achievementsCreateRequest);
+        return achievementsRepository.save(achievements);
     }
 
     @Override
     public AchievementsEntity update(AchievementsUpdateRequest achievementsUpdateRequest) {
-        Optional<AchievementsEntity> optionalAchievements = achievementsRepository.findById(achievementsUpdateRequest.getId());
+        Optional<AchievementsEntity> optionalAchievements = achievementsRepository.findByIdAndDisplayTrue(achievementsUpdateRequest.getId());
         if (optionalAchievements.isPresent()) {
-            AchievementsEntity achievementsEntity = optionalAchievements.get();
-            achievementsEntity = achievementsMapper.requestMapToAchievements(achievementsEntity, achievementsUpdateRequest);
-            return achievementsRepository.save(achievementsEntity);
+            AchievementsEntity achievements = optionalAchievements.get();
+            achievements = achievementsMapper.requestMapToAchievements(achievements, achievementsUpdateRequest);
+            return achievementsRepository.save(achievements);
         }
         return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-        achievementsRepository.deleteById(id);
     }
 }

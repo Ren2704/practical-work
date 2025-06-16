@@ -31,5 +31,6 @@ public class UsersEntity {
 
     @Column
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private Role role = Role.NOT_SELECTED;
 }

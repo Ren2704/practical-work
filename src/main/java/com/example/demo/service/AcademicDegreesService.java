@@ -9,8 +9,7 @@ import java.util.Optional;
 
 public interface AcademicDegreesService {
     List<AcademicDegreesEntity> findAll();
-    Optional<AcademicDegreesEntity> findById(Long id);
     AcademicDegreesEntity create(AcademicDegreesCreateRequest academicDegreesCreateRequest);
     AcademicDegreesEntity update(AcademicDegreesUpdateRequest academicDegreesUpdateRequest);
-    void delete(Long id);
+
 }

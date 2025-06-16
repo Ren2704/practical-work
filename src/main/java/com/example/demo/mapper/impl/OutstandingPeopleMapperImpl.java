@@ -40,17 +40,17 @@ public class OutstandingPeopleMapperImpl implements OutstandingPeopleMapper {
         person.setPhotoUrl(person.getPhotoUrl());
         person.setBiography(request.getBiography());
 
-        Optional<AcademicTitlesEntity> academicTitles = academicTitlesRepository.findByName(request.getAcademicTitles());
+        Optional<AcademicTitlesEntity> academicTitles = academicTitlesRepository.findByNameIgnoreCaseAndDisplayTrue(request.getAcademicTitles());
         if (academicTitles.isPresent())
-            person.setAcademicTitlesEntity(academicTitles.get());
+            person.setAcademicTitles(academicTitles.get());
 
-        Optional<AcademicDegreesEntity> academicDegrees = academicDegreesRepository.findByName(request.getAcademicDegrees());
+        Optional<AcademicDegreesEntity> academicDegrees = academicDegreesRepository.findByNameIgnoreCaseAndDisplayTrue(request.getAcademicDegrees());
         if (academicDegrees.isPresent())
-            person.setAcademicDegreesEntity(academicDegrees.get());
+            person.setAcademicDegrees(academicDegrees.get());
 
-        Optional<EducationSubjectEntity> scientificFields = scientificFieldsRepository.findByName(request.getScientificFields());
+        Optional<EducationSubjectEntity> scientificFields = scientificFieldsRepository.findByNameIgnoreCaseAndDisplayTrue(request.getScientificFields());
         if (scientificFields.isPresent())
-            person.setEducationSubjectEntity(scientificFields.get());
+            person.setEducationSubject(scientificFields.get());
 
         return person;
     }

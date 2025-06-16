@@ -10,7 +10,9 @@ import java.util.Optional;
 public interface OutstandingPeopleService {
     List<OutstandingPeopleEntity> findAll();
     Optional<OutstandingPeopleEntity> findById(Long id);
+    List<OutstandingPeopleEntity> findByName(String name);
+    List<OutstandingPeopleEntity> findBySurname(String surname);
+    List<OutstandingPeopleEntity> findByNameAndSurname(String name, String surname);
     OutstandingPeopleEntity create(OutstandingPeopleCreateRequest outstandingPeopleCreateRequest);
     OutstandingPeopleEntity update(OutstandingPeopleUpdateRequest outstandingPeopleUpdateRequest);
-    void delete(Long id);
 }

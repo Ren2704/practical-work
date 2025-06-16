@@ -4,5 +4,5 @@ import com.example.demo.controller.request.education.subject.EducationSubjectCre
 import com.example.demo.entity.EducationSubjectEntity;
 
 public interface EducationSubjectMapper {
-    <T extends EducationSubjectCreateRequest> EducationSubjectEntity requestMapToEducationSubject(EducationSubjectEntity educationSubjectEntity, T request);
+    <T extends EducationSubjectCreateRequest> EducationSubjectEntity requestMapToEducationSubject(EducationSubjectEntity educationSubject, T request);
 }

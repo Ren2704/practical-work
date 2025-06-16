@@ -9,8 +9,7 @@ import java.util.Optional;
 
 public interface AcademicTitlesService {
     List<AcademicTitlesEntity> findAll();
-    Optional<AcademicTitlesEntity> findById(Long id);
     AcademicTitlesEntity create(AcademicTitlesCreateRequest academicTitlesCreateRequest);
     AcademicTitlesEntity update(AcademicTitlesUpdateRequest academicTitlesUpdateRequest);
-    void delete(Long id);
+
 }

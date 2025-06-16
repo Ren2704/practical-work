@@ -4,5 +4,5 @@ import com.example.demo.controller.request.achievements.AchievementsCreateReques
 import com.example.demo.entity.AchievementsEntity;
 
 public interface AchievementsMapper {
-    <T extends AchievementsCreateRequest> AchievementsEntity requestMapToAchievements(AchievementsEntity achievementsEntity, T request);
+    <T extends AchievementsCreateRequest> AchievementsEntity requestMapToAchievements(AchievementsEntity achievements, T request);
 }

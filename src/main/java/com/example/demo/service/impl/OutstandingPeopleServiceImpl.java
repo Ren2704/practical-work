@@ -15,38 +15,51 @@ import java.util.Optional;
 public class OutstandingPeopleServiceImpl implements OutstandingPeopleService {
     private final OutstandingPeopleRepository outstandingPeopleRepository;
     private final OutstandingPeopleMapper outstandingPeopleMapper;
+
     public OutstandingPeopleServiceImpl(OutstandingPeopleRepository outstandingPeopleRepository, OutstandingPeopleMapper outstandingPeopleMapper) {
         this.outstandingPeopleRepository = outstandingPeopleRepository;
         this.outstandingPeopleMapper = outstandingPeopleMapper;
     }
+
     @Override
     public List<OutstandingPeopleEntity> findAll() {
-        return outstandingPeopleRepository.findAll();
+        return outstandingPeopleRepository.findByDisplayTrueOrderBySurnameAsc();
     }
+
     @Override
     public Optional<OutstandingPeopleEntity> findById(Long id) {
-        return outstandingPeopleRepository.findById(id);
+        return outstandingPeopleRepository.findByIdAndDisplayTrue(id);
     }
+
+    @Override
+    public List<OutstandingPeopleEntity> findByName(String name) {
+        return outstandingPeopleRepository.findByNameContainingIgnoreCaseAndDisplayTrue(name);
+    }
+
+    @Override
+    public List<OutstandingPeopleEntity> findBySurname(String surname) {
+        return outstandingPeopleRepository.findBySurnameContainingIgnoreCaseAndDisplayTrue(surname);
+    }
+
+    @Override
+    public List<OutstandingPeopleEntity> findByNameAndSurname(String name, String surname) {
+        return outstandingPeopleRepository.findByNameContainingIgnoreCaseAndSurnameContainingIgnoreCaseAndDisplayTrue(name, surname);
+    }
+
     @Override
     public OutstandingPeopleEntity create(OutstandingPeopleCreateRequest outstandingPeopleCreateRequest) {
-        OutstandingPeopleEntity outstandingPeopleEntity = new OutstandingPeopleEntity();
-        outstandingPeopleEntity =
-                outstandingPeopleMapper.requestMapToOutstandingPeople(outstandingPeopleEntity, outstandingPeopleCreateRequest);
-        return outstandingPeopleRepository.save(outstandingPeopleEntity);
+        OutstandingPeopleEntity outstandingPeople = new OutstandingPeopleEntity();
+        outstandingPeople = outstandingPeopleMapper.requestMapToOutstandingPeople(outstandingPeople, outstandingPeopleCreateRequest);
+        return outstandingPeopleRepository.save(outstandingPeople);
     }
     @Override
     public OutstandingPeopleEntity update(OutstandingPeopleUpdateRequest outstandingPeopleUpdateRequest) {
-        Optional<OutstandingPeopleEntity> optionalOutstandingPeople =
-                outstandingPeopleRepository.findById(outstandingPeopleUpdateRequest.getId());
+        Optional<OutstandingPeopleEntity> optionalOutstandingPeople = outstandingPeopleRepository.findByIdAndDisplayTrue(outstandingPeopleUpdateRequest.getId());
         if (optionalOutstandingPeople.isPresent()) {
-            OutstandingPeopleEntity outstandingPeopleEntity = optionalOutstandingPeople.get();
-            outstandingPeopleEntity =
-                    outstandingPeopleMapper.requestMapToOutstandingPeople(outstandingPeopleEntity, outstandingPeopleUpdateRequest);
-            return outstandingPeopleRepository.save(outstandingPeopleEntity);
+            OutstandingPeopleEntity outstandingPeople = optionalOutstandingPeople.get();
+            outstandingPeople = outstandingPeopleMapper.requestMapToOutstandingPeople(outstandingPeople, outstandingPeopleUpdateRequest);
+            return outstandingPeopleRepository.save(outstandingPeople);
         }
         return null;
-    }
-    @Override public void delete(Long id) {
-        outstandingPeopleRepository.deleteById(id);
     }
 }

@@ -20,17 +20,17 @@ public class AchievementsMapperImpl implements AchievementsMapper {
     }
 
     @Override
-    public <T extends AchievementsCreateRequest> AchievementsEntity requestMapToAchievements(AchievementsEntity achievementsEntity, T request) {
+    public <T extends AchievementsCreateRequest> AchievementsEntity requestMapToAchievements(AchievementsEntity achievements, T request) {
         if (request == null)
             return null;
-        achievementsEntity.setTitle(request.getTitle());
-        achievementsEntity.setYear(request.getYear());
-        achievementsEntity.setDescription(request.getDescription());
+        achievements.setTitle(request.getTitle());
+        achievements.setYear(request.getYear());
+        achievements.setDescription(request.getDescription());
 
         Optional<OutstandingPeopleEntity> person = outstandingPeopleRepository.findById(request.getPersonId());
         if (person.isPresent())
-            achievementsEntity.setPerson(person.get());
+            achievements.setPerson(person.get());
 
-        return achievementsEntity;
+        return achievements;
     }
 }

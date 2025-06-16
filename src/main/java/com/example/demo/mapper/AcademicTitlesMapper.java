@@ -4,5 +4,5 @@ import com.example.demo.controller.request.academic.titles.AcademicTitlesCreateR
 import com.example.demo.entity.AcademicTitlesEntity;
 
 public interface AcademicTitlesMapper {
-    <T extends AcademicTitlesCreateRequest> AcademicTitlesEntity requestMapToAcademicTitles(AcademicTitlesEntity academicTitlesEntity, T request);
+    <T extends AcademicTitlesCreateRequest> AcademicTitlesEntity requestMapToAcademicTitles(AcademicTitlesEntity academicTitles, T request);
 }

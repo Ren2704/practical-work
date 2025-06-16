@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsersMapperImpl implements UsersMapper {
     @Override
-    public <T extends UsersCreateRequest> UsersEntity requestMapToUsers(UsersEntity usersEntity, T request) {
+    public <T extends UsersCreateRequest> UsersEntity requestMapToUsers(UsersEntity users, T request) {
         if (request == null)
             return null;
-        usersEntity.setLogin(request.getLogin());
-        usersEntity.setPassword(PasswordHasher.hashPassword(request.getPassword()));
-        usersEntity.setRole(request.getRole());
+        users.setLogin(request.getLogin());
+        users.setPassword(PasswordHasher.hashPassword(request.getPassword()));
+        users.setRole(request.getRole());
 
-        return usersEntity;
+        return users;
     }
 }

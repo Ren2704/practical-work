@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class EducationSubjectMapperImpl implements EducationSubjectMapper {
     @Override
-    public <T extends EducationSubjectCreateRequest> EducationSubjectEntity requestMapToEducationSubject(EducationSubjectEntity educationSubjectEntity, T request) {
+    public <T extends EducationSubjectCreateRequest> EducationSubjectEntity requestMapToEducationSubject(EducationSubjectEntity educationSubject, T request) {
         if (request == null)
             return null;
-        educationSubjectEntity.setName(request.getName());
-        educationSubjectEntity.setShortName(request.getShortName());
+        educationSubject.setName(request.getName());
+        educationSubject.setShortName(request.getShortName());
 
-        return educationSubjectEntity;
+        return educationSubject;
     }
 }

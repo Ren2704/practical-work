@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class AcademicDegreesMapperImpl implements AcademicDegreesMapper {
     @Override
-    public <T extends AcademicDegreesCreateRequest> AcademicDegreesEntity requestMapToAcademicDegrees(AcademicDegreesEntity academicDegreesEntity, T request) {
+    public <T extends AcademicDegreesCreateRequest> AcademicDegreesEntity requestMapToAcademicDegrees(AcademicDegreesEntity academicDegrees, T request) {
         if (request == null)
             return null;
-        academicDegreesEntity.setName(request.getName());
-        academicDegreesEntity.setShortName(request.getShortName());
+        academicDegrees.setName(request.getName());
+        academicDegrees.setShortName(request.getShortName());
 
-        return academicDegreesEntity;
+        return academicDegrees;
     }
 }

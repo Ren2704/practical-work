@@ -24,34 +24,24 @@ public class AcademicTitlesServiceImpl implements AcademicTitlesService {
 
     @Override
     public List<AcademicTitlesEntity> findAll() {
-        return academicTitlesRepository.findAll();
-    }
-
-    @Override
-    public Optional<AcademicTitlesEntity> findById(Long id) {
-        return academicTitlesRepository.findById(id);
+        return academicTitlesRepository.findByDisplayTrueOrderByNameAsc();
     }
 
     @Override
     public AcademicTitlesEntity create(AcademicTitlesCreateRequest academicTitlesCreateRequest) {
-        AcademicTitlesEntity academicTitlesEntity = new AcademicTitlesEntity();
-        academicTitlesEntity = academicTitlesMapper.requestMapToAcademicTitles(academicTitlesEntity, academicTitlesCreateRequest);
-        return academicTitlesRepository.save(academicTitlesEntity);
+        AcademicTitlesEntity academicTitles = new AcademicTitlesEntity();
+        academicTitles = academicTitlesMapper.requestMapToAcademicTitles(academicTitles, academicTitlesCreateRequest);
+        return academicTitlesRepository.save(academicTitles);
     }
 
     @Override
     public AcademicTitlesEntity update(AcademicTitlesUpdateRequest academicTitlesUpdateRequest) {
-        Optional<AcademicTitlesEntity> optionalAcademicTitles = academicTitlesRepository.findById(academicTitlesUpdateRequest.getId());
+        Optional<AcademicTitlesEntity> optionalAcademicTitles = academicTitlesRepository.findByIdAndDisplayTrue(academicTitlesUpdateRequest.getId());
         if (optionalAcademicTitles.isPresent()) {
-            AcademicTitlesEntity academicTitlesEntity = optionalAcademicTitles.get();
-            academicTitlesEntity = academicTitlesMapper.requestMapToAcademicTitles(academicTitlesEntity, academicTitlesUpdateRequest);
-            return academicTitlesRepository.save(academicTitlesEntity);
+            AcademicTitlesEntity academicTitles = optionalAcademicTitles.get();
+            academicTitles = academicTitlesMapper.requestMapToAcademicTitles(academicTitles, academicTitlesUpdateRequest);
+            return academicTitlesRepository.save(academicTitles);
         }
         return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-        academicTitlesRepository.deleteById(id);
     }
 }

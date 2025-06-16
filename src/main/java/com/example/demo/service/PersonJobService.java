@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PersonJobService {
-    List<PersonJobEntity> findAll();
-    Optional<PersonJobEntity> findById(Long id);
+    List<PersonJobEntity> findByPersonId(Long personId);
+    Optional<PersonJobEntity> findByPersonIdAndCurrent(Long personId);
     PersonJobEntity create(PersonJobCreateRequest personJobCreateRequest);
     PersonJobEntity update(PersonJobUpdateRequest personJobUpdateRequest);
-    void delete(Long id);
 }

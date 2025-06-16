@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobTitleMapperImpl implements JobTitleMapper {
     @Override
-    public <T extends JobTitleCreateRequest> JobTitleEntity requestMapToJobTitle(JobTitleEntity jobTitleEntity, T request) {
+    public <T extends JobTitleCreateRequest> JobTitleEntity requestMapToJobTitle(JobTitleEntity jobTitle, T request) {
         if (request == null)
             return null;
-        jobTitleEntity.setName(request.getName());
+        jobTitle.setName(request.getName());
 
-        return jobTitleEntity;
+        return jobTitle;
     }
 }

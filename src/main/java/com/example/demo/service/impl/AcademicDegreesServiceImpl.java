@@ -24,34 +24,24 @@ public class AcademicDegreesServiceImpl implements AcademicDegreesService {
 
     @Override
     public List<AcademicDegreesEntity> findAll() {
-        return academicDegreesRepository.findAll();
-    }
-
-    @Override
-    public Optional<AcademicDegreesEntity> findById(Long id) {
-        return academicDegreesRepository.findById(id);
+        return academicDegreesRepository.findByDisplayTrueOrderByNameAsc();
     }
 
     @Override
     public AcademicDegreesEntity create(AcademicDegreesCreateRequest academicDegreesCreateRequest) {
-        AcademicDegreesEntity academicDegreesEntity = new AcademicDegreesEntity();
-        academicDegreesEntity = academicDegreesMapper.requestMapToAcademicDegrees(academicDegreesEntity, academicDegreesCreateRequest);
-        return academicDegreesRepository.save(academicDegreesEntity);
+        AcademicDegreesEntity academicDegrees = new AcademicDegreesEntity();
+        academicDegrees = academicDegreesMapper.requestMapToAcademicDegrees(academicDegrees, academicDegreesCreateRequest);
+        return academicDegreesRepository.save(academicDegrees);
     }
 
     @Override
     public AcademicDegreesEntity update(AcademicDegreesUpdateRequest academicDegreesUpdateRequest) {
-        Optional<AcademicDegreesEntity> optionalAcademicDegrees = academicDegreesRepository.findById(academicDegreesUpdateRequest.getId());
+        Optional<AcademicDegreesEntity> optionalAcademicDegrees = academicDegreesRepository.findByIdAndDisplayTrue(academicDegreesUpdateRequest.getId());
         if (optionalAcademicDegrees.isPresent()) {
-            AcademicDegreesEntity academicDegreesEntity = optionalAcademicDegrees.get();
-            academicDegreesEntity = academicDegreesMapper.requestMapToAcademicDegrees(academicDegreesEntity, academicDegreesUpdateRequest);
-            return academicDegreesRepository.save(academicDegreesEntity);
+            AcademicDegreesEntity academicDegrees = optionalAcademicDegrees.get();
+            academicDegrees = academicDegreesMapper.requestMapToAcademicDegrees(academicDegrees, academicDegreesUpdateRequest);
+            return academicDegreesRepository.save(academicDegrees);
         }
         return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-        academicDegreesRepository.deleteById(id);
     }
 }

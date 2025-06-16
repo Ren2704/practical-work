@@ -14,8 +14,8 @@ import java.util.Set;
 @Setter
 @Getter
 
-@EqualsAndHashCode(exclude = {"academicTitlesEntity", "academicDegreesEntity", "educationSubjectEntity", "publications", "achievements", "personJobEntity"})
-@ToString(exclude = {"academicTitlesEntity", "academicDegreesEntity", "educationSubjectEntity", "publications", "achievements", "personJobEntity"})
+@EqualsAndHashCode(exclude = {"academicTitles", "academicDegrees", "educationSubject", "achievements", "personJob"})
+@ToString(exclude = {"academicTitles", "academicDegrees", "educationSubject", "achievements", "personJob"})
 
 @Builder
 @Entity
@@ -38,6 +38,7 @@ public class OutstandingPeopleEntity {
 
     @Column
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private Gender gender = Gender.NOT_SELECTED;
 
     @Column(name = "year_of_birth", nullable = true)
@@ -52,30 +53,32 @@ public class OutstandingPeopleEntity {
     @Column(columnDefinition = "TEXT")
     private String biography;
 
+    @Column
+    @Builder.Default
+    private Boolean display = true;
+
     @ManyToOne
     @JoinColumn(name = "id_academic_titles")
     @JsonBackReference
-    private AcademicTitlesEntity academicTitlesEntity;
+    private AcademicTitlesEntity academicTitles;
 
     @ManyToOne
     @JoinColumn(name = "id_academic_degrees")
     @JsonBackReference
-    private AcademicDegreesEntity academicDegreesEntity;
+    private AcademicDegreesEntity academicDegrees;
 
     @ManyToOne
     @JoinColumn(name = "id_education_subject")
     @JsonBackReference
-    private EducationSubjectEntity educationSubjectEntity;
+    private EducationSubjectEntity educationSubject;
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private Set<PublicationsEntity> publications = Collections.emptySet();
-
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @Builder.Default
     private Set<AchievementsEntity> achievements = Collections.emptySet();
 
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private Set<PersonJobEntity> personJobEntity = Collections.emptySet();
+    @Builder.Default
+    private Set<PersonJobEntity> personJob = Collections.emptySet();
 }

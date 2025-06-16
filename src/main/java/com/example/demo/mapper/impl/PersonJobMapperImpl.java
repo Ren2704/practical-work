@@ -24,18 +24,18 @@ public class PersonJobMapperImpl implements PersonJobMapper {
     }
 
     @Override
-    public <T extends PersonJobCreateRequest> PersonJobEntity requestMapToPersonJob(PersonJobEntity personJobEntity, T request) {
+    public <T extends PersonJobCreateRequest> PersonJobEntity requestMapToPersonJob(PersonJobEntity personJob, T request) {
         if (request == null)
             return null;
-        personJobEntity.setStartYear(request.getStartYear());
-        personJobEntity.setEndYear(request.getEndYear());
-        personJobEntity.setCurrent(request.isCurrent());
+        personJob.setStartYear(request.getStartYear());
+        personJob.setEndYear(request.getEndYear());
+        personJob.setCurrent(request.isCurrent());
         Optional<OutstandingPeopleEntity> person = outstandingPeopleRepository.findById(request.getPersonId());
         if (person.isPresent())
-            personJobEntity.setPerson(person.get());
-        Optional<JobTitleEntity> jobTitle = jobTitleRepository.findByName(request.getJobTitle());
+            personJob.setPerson(person.get());
+        Optional<JobTitleEntity> jobTitle = jobTitleRepository.findByNameIgnoreCaseAndDisplayTrue(request.getJobTitle());
         if (jobTitle.isPresent())
-            personJobEntity.setJobTitleEntity(jobTitle.get());
-        return personJobEntity;
+            personJob.setJobTitle(jobTitle.get());
+        return personJob;
     }
 }

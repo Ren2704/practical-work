@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface JobTitleService {
     List<JobTitleEntity> findAll();
-    Optional<JobTitleEntity> findById(Long id);
     JobTitleEntity create(JobTitleCreateRequest jobTitleCreateRequest);
     JobTitleEntity update(JobTitleUpdateRequest jobTitleUpdateRequest);
-    void delete(Long id);
 }

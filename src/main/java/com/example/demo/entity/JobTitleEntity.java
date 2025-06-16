@@ -14,8 +14,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Setter
 @Getter
 
-@EqualsAndHashCode(exclude = {"personJobEntities"})
-@ToString(exclude = {"personJobEntities"})
+@EqualsAndHashCode(exclude = {"personJob"})
+@ToString(exclude = {"personJob"})
 
 @Builder
 @Entity
@@ -30,7 +30,12 @@ public class JobTitleEntity {
     @Column (nullable = false, unique = true)
     private String name;
 
+    @Column
+    @Builder.Default
+    private Boolean display = true;
+
     @OneToMany(mappedBy = "jobTitle", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private Set<PersonJobEntity> personJobEntities = Collections.emptySet();
+    @Builder.Default
+    private Set<PersonJobEntity> personJob = Collections.emptySet();
 }
