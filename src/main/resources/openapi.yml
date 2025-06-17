@@ -1734,3 +1734,17 @@ components:
               example: 1
           required:
             - id
+
+  responses:
+    200:
+      description: Изменение информации о пользователе в базе данных
+      content:
+        application/json: { }
+    400:
+      description: Некорректный запрос
+      content:
+        application/json: { }
+    500:
+      description: Внутренняя ошибка сервера
+      content:
+        application/json: { }
