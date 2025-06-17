@@ -28,6 +28,7 @@ paths:
           description: Внутренняя ошибка сервера
           content:
             application/json: {}
+
     put:
       tags:
         - users-controller
@@ -75,6 +76,7 @@ paths:
           description: Внутренняя ошибка сервера
           content:
             application/json: {}
+
     post:
       tags:
         - users-controller
@@ -116,6 +118,294 @@ paths:
           description: Внутренняя ошибка сервера
           content:
             application/json: {}
+
+
+  /users/{id}:
+    get:
+      tags:
+        - users-controller
+      summary: Отобразить пользователя по ID
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    delete:
+      tags:
+        - users-controller
+      summary: Удалить пользователя по ID
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          $ref: '#/components/responses/200'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+
+  /academicDegrees:
+    get:
+      tags:
+        - academic-degrees-controller
+      summary: Отобразить все возможные учёные степени и людей, к которым они относятся
+      operationId: findAll_8
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    put:
+      tags:
+        - academic-degrees-controller
+      summary: Изменить информацию об ученой степени
+      operationId: update_8
+      parameters:
+        - name: id
+          in: query
+          description: ID
+          required: true
+          schema:
+            type: number
+            example: 3
+        - name: name
+          in: query
+          description: название
+          required: true
+          schema:
+            type: string
+        - name: shortName
+          in: query
+          description: сокращённое название
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Изменение информации об учёной степени в базе данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    post:
+      tags:
+        - academic-degrees-controller
+      summary: Создать новую учёную степень
+      operationId: create_8
+      parameters:
+        - name: name
+          in: query
+          description: название
+          required: true
+          schema:
+            type: string
+        - name: shortName
+          in: query
+          description: сокращённое название
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Внесение в бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+
+  /academicDegrees/{id}:
+    get:
+      tags:
+        - academic-degrees-controller
+      summary: Найти всех выдающихся людей по учёной степени
+      operationId: findById_8
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+
+  /academicTitles:
+    get:
+      tags:
+        - academic-titles-controller
+      summary: Отобразить все возможные учёные звания и людей, к которым они относятся
+      operationId: findAll_7
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    put:
+      tags:
+        - academic-titles-controller
+      summary: Изменить информацию об ученом звании
+      operationId: update_7
+      parameters:
+        - name: id
+          in: query
+          description: ID
+          required: true
+          schema:
+            type: number
+            example: 3
+        - name: name
+          in: query
+          description: название
+          required: true
+          schema:
+            type: string
+        - name: shortName
+          in: query
+          description: сокращённое название
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Изменение информации об учёном звании в базе данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    post:
+      tags:
+        - academic-titles-controller
+      summary: Создать новое учёное звание
+      operationId: create_7
+      parameters:
+        - name: name
+          in: query
+          description: название
+          required: true
+          schema:
+            type: string
+        - name: shortName
+          in: query
+          description: сокращённое название
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Внесение в бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+
+  /academicTitles/{id}:
+    get:
+      tags:
+        - academic-titles-controller
+      summary: Найти всех выдающихся людей по учёному званию
+      operationId: findById_7
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
   /edacationSubject:
     get:
       tags:
@@ -204,6 +494,503 @@ paths:
           description: Внутренняя ошибка сервера
           content:
             application/json: {}
+
+  /edacationSubject/{id}:
+    get:
+      tags:
+        - edacation-subject-controller
+      summary: Найти всех выдающихся людей по научному направлению
+      operationId: findById_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+  /achievements:
+    get:
+      tags:
+        - achievements-controller
+      summary: Отобразить все достижения
+      operationId: findAll_6
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    put:
+      tags:
+        - achievements-controller
+      summary: Изменить запись заслуги по id
+      operationId: update_6
+      parameters:
+        - name: id
+          in: query
+          description: ID
+          required: true
+          schema:
+            type: number
+        - name: title
+          in: query
+          description: Наименование
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: query
+          description: Год вручения
+          required: true
+          schema:
+            type: number
+        - name: description
+          in: query
+          description: Описание заслуги
+          required: true
+          schema:
+            type: string
+        - name: personId
+          in: query
+          description: ID сотрудника
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: Изменение информации о достижении
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    post:
+      tags:
+        - achievements-controller
+      summary: Создать новую запись про достижение
+      operationId: create_6
+      parameters:
+        - name: title
+          in: query
+          description: Наименование
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: query
+          description: Год вручения
+          required: true
+          schema:
+            type: number
+        - name: description
+          in: query
+          description: Описание заслуги
+          required: true
+          schema:
+            type: string
+        - name: personId
+          in: query
+          description: ID сотрудника
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: Внесение в бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+  /achievements/{id}:
+    get:
+      tags:
+        - achievements-controller
+      summary: Найти достижение по id
+      operationId: findById_6
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+
+  /outstandingPeople:
+    get:
+      tags:
+        - outstanding-people-controller
+      summary: Отобразить всех выдающихся сотрудников, их достижения и публикации
+      operationId: findAll_4
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    put:
+      tags:
+        - outstanding-people-controller
+      summary: Изменить информацию о сотруднике
+      operationId: update_4
+      parameters:
+        - name: id
+          in: query
+          description: ID
+          required: true
+          schema:
+            type: number
+        - name: name
+          in: query
+          description: Имя
+          required: true
+          schema:
+            type: string
+        - name: surname
+          in: query
+          description: Фамилия
+          required: true
+          schema:
+            type: string
+        - name: patronymic
+          in: query
+          description: Отчество
+          schema:
+            type: string
+        - name: gender
+          in: query
+          description: Пол
+          required: true
+          schema:
+            type: string
+            enum:
+              - NOT_SELECTED
+              - MALE
+              - FEMALE
+        - name: yearOfBirth
+          in: query
+          description: Год рождения
+          required: true
+          schema:
+            type: number
+        - name: yearOfDeath
+          in: query
+          description: Год смерти
+          schema:
+            type: number
+        - name: photoUrl
+          in: query
+          description: Ссылка на фото
+          schema:
+            type: string
+        - name: biography
+          in: query
+          description: Краткая биография
+          required: true
+          schema:
+            type: string
+        - name: academicTitles
+          in: query
+          description: Учёное звание
+          schema:
+            type: string
+        - name: academicDegrees
+          in: query
+          description: Учёная степень
+          schema:
+            type: string
+        - name: scientificFields
+          in: query
+          description: Научное направление
+          schema:
+            type: string
+      responses:
+        200:
+          description: Изменение информации о сотруднике в базе данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    post:
+      tags:
+        - outstanding-people-controller
+      summary: Создание нового сотрудника
+      operationId: create_4
+      parameters:
+        - name: name
+          in: query
+          description: Имя
+          required: true
+          schema:
+            type: string
+        - name: surname
+          in: query
+          description: Фамилия
+          required: true
+          schema:
+            type: string
+        - name: patronymic
+          in: query
+          description: Отчество
+          schema:
+            type: string
+        - name: gender
+          in: query
+          description: Пол
+          required: true
+          schema:
+            type: string
+            enum:
+              - NOT_SELECTED
+              - MALE
+              - FEMALE
+        - name: yearOfBirth
+          in: query
+          description: Год рождения
+          required: true
+          schema:
+            type: number
+        - name: yearOfDeath
+          in: query
+          description: Год смерти
+          schema:
+            type: number
+        - name: photoUrl
+          in: query
+          description: Ссылка на фото
+          schema:
+            type: string
+        - name: biography
+          in: query
+          description: Краткая биография
+          required: true
+          schema:
+            type: string
+        - name: academicTitles
+          in: query
+          description: Учёное звание
+          schema:
+            type: string
+        - name: academicDegrees
+          in: query
+          description: Учёная степень
+          schema:
+            type: string
+        - name: scientificFields
+          in: query
+          description: Научное направление
+          schema:
+            type: string
+      responses:
+        200:
+          description: Внесение в бд сотрудника
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+  /outstandingPeople/{id}:
+    get:
+      tags:
+        - outstanding-people-controller
+      summary: Отобразить сотрудника по ID, его достижения и публикации
+      operationId: findById_4
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+
+  /jobTitle:
+    get:
+      tags:
+        - job-title-controller
+      summary: Отобразить все возможные должности, в какие периоды их занимали и какие сотрудники
+      operationId: findAll_5
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    put:
+      tags:
+        - job-title-controller
+      summary: Изменить информацию о должности
+      operationId: update_5
+      parameters:
+        - name: id
+          in: query
+          description: ID
+          required: true
+          schema:
+            type: number
+            example: 3
+        - name: name
+          in: query
+          description: название
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Изменение информации о должности в базе данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+    post:
+      tags:
+        - job-title-controller
+      summary: Создать новую должность
+      operationId: create_5
+      parameters:
+        - name: name
+          in: query
+          description: название
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Внесение в бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+  /jobTitle/{id}:
+    get:
+      tags:
+        - job-title-controller
+      summary: Найти по должности все периоды, когда должность занималась и кем
+      operationId: findById_5
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Вытягивание из бд данных
+          content:
+            application/json: { }
+        400:
+          description: Некорректный запрос
+          content:
+            application/json: { }
+        500:
+          description: Внутренняя ошибка сервера
+          content:
+            application/json: { }
+
+
   /personJob:
     get:
       tags:
@@ -329,666 +1116,7 @@ paths:
           description: Внутренняя ошибка сервера
           content:
             application/json: {}
-  /outstandingPeople:
-    get:
-      tags:
-        - outstanding-people-controller
-      summary: Отобразить всех выдающихся сотрудников, их достижения и публикации
-      operationId: findAll_4
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    put:
-      tags:
-        - outstanding-people-controller
-      summary: Изменить информацию о сотруднике
-      operationId: update_4
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-        - name: name
-          in: query
-          description: Имя
-          required: true
-          schema:
-            type: string
-        - name: surname
-          in: query
-          description: Фамилия
-          required: true
-          schema:
-            type: string
-        - name: patronymic
-          in: query
-          description: Отчество
-          schema:
-            type: string
-        - name: gender
-          in: query
-          description: Пол
-          required: true
-          schema:
-            type: string
-            enum:
-              - NOT_SELECTED
-              - MALE
-              - FEMALE
-        - name: yearOfBirth
-          in: query
-          description: Год рождения
-          required: true
-          schema:
-            type: number
-        - name: yearOfDeath
-          in: query
-          description: Год смерти
-          schema:
-            type: number
-        - name: photoUrl
-          in: query
-          description: Ссылка на фото
-          schema:
-            type: string
-        - name: biography
-          in: query
-          description: Краткая биография
-          required: true
-          schema:
-            type: string
-        - name: academicTitles
-          in: query
-          description: Учёное звание
-          schema:
-            type: string
-        - name: academicDegrees
-          in: query
-          description: Учёная степень
-          schema:
-            type: string
-        - name: scientificFields
-          in: query
-          description: Научное направление
-          schema:
-            type: string
-      responses:
-        200:
-          description: Изменение информации о сотруднике в базе данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    post:
-      tags:
-        - outstanding-people-controller
-      summary: Создание нового сотрудника
-      operationId: create_4
-      parameters:
-        - name: name
-          in: query
-          description: Имя
-          required: true
-          schema:
-            type: string
-        - name: surname
-          in: query
-          description: Фамилия
-          required: true
-          schema:
-            type: string
-        - name: patronymic
-          in: query
-          description: Отчество
-          schema:
-            type: string
-        - name: gender
-          in: query
-          description: Пол
-          required: true
-          schema:
-            type: string
-            enum:
-              - NOT_SELECTED
-              - MALE
-              - FEMALE
-        - name: yearOfBirth
-          in: query
-          description: Год рождения
-          required: true
-          schema:
-            type: number
-        - name: yearOfDeath
-          in: query
-          description: Год смерти
-          schema:
-            type: number
-        - name: photoUrl
-          in: query
-          description: Ссылка на фото
-          schema:
-            type: string
-        - name: biography
-          in: query
-          description: Краткая биография
-          required: true
-          schema:
-            type: string
-        - name: academicTitles
-          in: query
-          description: Учёное звание
-          schema:
-            type: string
-        - name: academicDegrees
-          in: query
-          description: Учёная степень
-          schema:
-            type: string
-        - name: scientificFields
-          in: query
-          description: Научное направление
-          schema:
-            type: string
-      responses:
-        200:
-          description: Внесение в бд сотрудника
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /jobTitle:
-    get:
-      tags:
-        - job-title-controller
-      summary: Отобразить все возможные должности, в какие периоды их занимали и какие сотрудники
-      operationId: findAll_5
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    put:
-      tags:
-        - job-title-controller
-      summary: Изменить информацию о должности
-      operationId: update_5
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-            example: 3
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Изменение информации о должности в базе данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    post:
-      tags:
-        - job-title-controller
-      summary: Создать новую должность
-      operationId: create_5
-      parameters:
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Внесение в бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /achievements:
-    get:
-      tags:
-        - achievements-controller
-      summary: Отобразить все достижения
-      operationId: findAll_6
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    put:
-      tags:
-        - achievements-controller
-      summary: Изменить запись заслуги по id
-      operationId: update_6
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-        - name: title
-          in: query
-          description: Наименование
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: query
-          description: Год вручения
-          required: true
-          schema:
-            type: number
-        - name: description
-          in: query
-          description: Описание заслуги
-          required: true
-          schema:
-            type: string
-        - name: personId
-          in: query
-          description: ID сотрудника
-          required: true
-          schema:
-            type: number
-      responses:
-        200:
-          description: Изменение информации о достижении
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    post:
-      tags:
-        - achievements-controller
-      summary: Создать новую запись про достижение
-      operationId: create_6
-      parameters:
-        - name: title
-          in: query
-          description: Наименование
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: query
-          description: Год вручения
-          required: true
-          schema:
-            type: number
-        - name: description
-          in: query
-          description: Описание заслуги
-          required: true
-          schema:
-            type: string
-        - name: personId
-          in: query
-          description: ID сотрудника
-          required: true
-          schema:
-            type: number
-      responses:
-        200:
-          description: Внесение в бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /academicTitles:
-    get:
-      tags:
-        - academic-titles-controller
-      summary: Отобразить все возможные учёные звания и людей, к которым они относятся
-      operationId: findAll_7
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    put:
-      tags:
-        - academic-titles-controller
-      summary: Изменить информацию об ученом звании
-      operationId: update_7
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-            example: 3
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Изменение информации об учёном звании в базе данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    post:
-      tags:
-        - academic-titles-controller
-      summary: Создать новое учёное звание
-      operationId: create_7
-      parameters:
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Внесение в бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /academicDegrees:
-    get:
-      tags:
-        - academic-degrees-controller
-      summary: Отобразить все возможные учёные степени и людей, к которым они относятся
-      operationId: findAll_8
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    put:
-      tags:
-        - academic-degrees-controller
-      summary: Изменить информацию об ученой степени
-      operationId: update_8
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-            example: 3
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Изменение информации об учёной степени в базе данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    post:
-      tags:
-        - academic-degrees-controller
-      summary: Создать новую учёную степень
-      operationId: create_8
-      parameters:
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Внесение в бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /users/{id}:
-    get:
-      tags:
-        - users-controller
-      summary: Отобразить пользователя по ID
-      operationId: findById
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - users-controller
-      summary: Удалить пользователя по ID
-      operationId: delete
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Удаление из базы данных пользователя
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /edacationSubject/{id}:
-    get:
-      tags:
-        - edacation-subject-controller
-      summary: Найти всех выдающихся людей по научному направлению
-      operationId: findById_1
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - edacation-subject-controller
-      summary: Удалить научное направление по ID
-      operationId: delete_1
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Удаление из базы данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
+
   /personJob/{id}:
     get:
       tags:
@@ -1007,308 +1135,19 @@ paths:
         200:
           description: Вытягивание из бд данных
           content:
-            application/json: {}
+            application/json: { }
         400:
           description: Некорректный запрос
           content:
-            application/json: {}
+            application/json: { }
         500:
           description: Внутренняя ошибка сервера
           content:
-            application/json: {}
-    delete:
-      tags:
-        - person-job-controller
-      summary: Удалить должность по ID
-      operationId: delete_3
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Удаление из базы данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /outstandingPeople/{id}:
-    get:
-      tags:
-        - outstanding-people-controller
-      summary: Отобразить сотрудника по ID, его достижения и публикации
-      operationId: findById_4
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - outstanding-people-controller
-      summary: Удалить сотрудника по ID
-      operationId: delete_4
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Удаление из базы данных сотрудника
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /jobTitle/{id}:
-    get:
-      tags:
-        - job-title-controller
-      summary: Найти по должности все периоды, когда должность занималась и кем
-      operationId: findById_5
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - job-title-controller
-      summary: Удалить должность по ID
-      operationId: delete_5
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Удаление из базы данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /achievements/{id}:
-    get:
-      tags:
-        - achievements-controller
-      summary: Найти достижение по id
-      operationId: findById_6
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - achievements-controller
-      summary: Удалить достижение по ID
-      operationId: delete_6
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Удаление из базы данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /academicTitles/{id}:
-    get:
-      tags:
-        - academic-titles-controller
-      summary: Найти всех выдающихся людей по учёному званию
-      operationId: findById_7
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - academic-titles-controller
-      summary: Удалить учёное звание по ID
-      operationId: delete_7
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Удаление из базы данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-  /academicDegrees/{id}:
-    get:
-      tags:
-        - academic-degrees-controller
-      summary: Найти всех выдающихся людей по учёной степени
-      operationId: findById_8
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Вытягивание из бд данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
-    delete:
-      tags:
-        - academic-degrees-controller
-      summary: Удалить учёную степень по ID
-      operationId: delete_8
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          description: Удаление из базы данных
-          content:
-            application/json: {}
-        400:
-          description: Некорректный запрос
-          content:
-            application/json: {}
-        500:
-          description: Внутренняя ошибка сервера
-          content:
-            application/json: {}
+            application/json: { }
+
 
 components:
+
   schemas:
 
     AcademicDegreesResponse:
