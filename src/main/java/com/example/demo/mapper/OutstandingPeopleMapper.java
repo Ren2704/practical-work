@@ -8,6 +8,8 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring")
 public interface OutstandingPeopleMapper {
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "achievements", ignore = true)
+    @Mapping(target = "personJob", ignore = true)
     @Mapping(target = "academicTitles", ignore = true)
     @Mapping(target = "academicDegrees", ignore = true)
     @Mapping(target = "educationSubject", ignore = true)
@@ -15,6 +17,8 @@ public interface OutstandingPeopleMapper {
     OutstandingPeopleEntity requestMapToEntity(OutstandingPersonCreateRequest request);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "achievements", ignore = true)
+    @Mapping(target = "personJob", ignore = true)
     @Mapping(target = "academicTitles", ignore = true)
     @Mapping(target = "academicDegrees", ignore = true)
     @Mapping(target = "educationSubject", ignore = true)

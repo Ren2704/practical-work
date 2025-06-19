@@ -10,10 +10,12 @@ import com.example.model.AcademicDegreesCreateRequest;
 public interface AcademicDegreesMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "person", ignore = true)
     @Mapping(target = "display", constant = "true")
     AcademicDegreesEntity requestMapToEntity(AcademicDegreesCreateRequest request);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "person", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(@MappingTarget AcademicDegreesEntity entity, AcademicDegreesUpdateRequest request);
 }
