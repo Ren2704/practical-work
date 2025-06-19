@@ -1,11 +1,10 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.request.job.title.JobTitleCreateRequest;
-import com.example.demo.controller.request.job.title.JobTitleUpdateRequest;
+import com.example.model.JobTitleCreateRequest;
+import com.example.model.JobTitleUpdateRequest;
 import com.example.demo.entity.JobTitleEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface JobTitleService {
     List<JobTitleEntity> findAll();

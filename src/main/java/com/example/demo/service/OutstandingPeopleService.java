@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.request.outstanding.people.OutstandingPeopleCreateRequest;
-import com.example.demo.controller.request.outstanding.people.OutstandingPeopleUpdateRequest;
+import com.example.model.OutstandingPersonCreateRequest;
+import com.example.model.OutstandingPersonUpdateRequest;
 import com.example.demo.entity.OutstandingPeopleEntity;
 
 import java.util.List;
@@ -13,6 +13,6 @@ public interface OutstandingPeopleService {
     List<OutstandingPeopleEntity> findByName(String name);
     List<OutstandingPeopleEntity> findBySurname(String surname);
     List<OutstandingPeopleEntity> findByNameAndSurname(String name, String surname);
-    OutstandingPeopleEntity create(OutstandingPeopleCreateRequest outstandingPeopleCreateRequest);
-    OutstandingPeopleEntity update(OutstandingPeopleUpdateRequest outstandingPeopleUpdateRequest);
+    OutstandingPeopleEntity create(OutstandingPersonCreateRequest outstandingPeopleCreateRequest);
+    OutstandingPeopleEntity update(OutstandingPersonUpdateRequest outstandingPeopleUpdateRequest);
 }

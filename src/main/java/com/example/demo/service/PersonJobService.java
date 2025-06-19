@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.request.job.person.PersonJobCreateRequest;
-import com.example.demo.controller.request.job.person.PersonJobUpdateRequest;
+import com.example.model.PersonJobCreateRequest;
+import com.example.model.PersonJobUpdateRequest;
 import com.example.demo.entity.PersonJobEntity;
 
 import java.util.List;

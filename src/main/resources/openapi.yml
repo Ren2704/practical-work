@@ -981,6 +981,10 @@ components:
               format: int64
               description: Идентификатор ученой степени для обновления
               example: 1
+            display:
+              type: boolean
+              default: true
+              nullable: true
           required:
             - id
 
@@ -1013,6 +1017,10 @@ components:
               format: int64
               description: Идентификатор ученого звания для обновления
               example: 1
+            display:
+              type: boolean
+              default: true
+              nullable: true
           required:
             - id
 
@@ -1058,6 +1066,10 @@ components:
               format: int64
               description: Идентификатор достижения для обновления
               example: 1
+            display:
+              type: boolean
+              default: true
+              nullable: true
           required:
             - id
 
@@ -1090,6 +1102,10 @@ components:
               format: int64
               description: Идентификатор учебного предмета для обновления
               example: 1
+            display:
+              type: boolean
+              default: true
+              nullable: true
           required:
             - id
 
@@ -1118,6 +1134,10 @@ components:
               format: int64
               description: Идентификатор должности для обновления
               example: 1
+            display:
+              type: boolean
+              default: true
+              nullable: true
           required:
             - id
 
@@ -1253,6 +1273,10 @@ components:
               format: int64
               description: Идентификатор человека для обновления
               example: 1
+            display:
+              type: boolean
+              default: true
+              nullable: true
           required:
             - id
 
@@ -1300,14 +1324,13 @@ components:
           format: int64
           description: Идентификатор человека, к которому относится запись
           example: 1
-        jobTitleId:
-          type: integer
-          format: int64
-          description: Идентификатор названия должности, к которой относится запись
-          example: 1
+        jobTitle:
+          type: string
+          description: Название должности
+          example: "ректор"
       required:
         - personId
-        - jobTitleId
+        - jobTitle
 
     PersonJobUpdateRequest:
       allOf:
@@ -1319,6 +1342,10 @@ components:
               format: int64
               description: Идентификатор поля для обновления
               example: 1
+            display:
+              type: boolean
+              default: true
+              nullable: true
           required:
             - id
 
