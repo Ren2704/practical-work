@@ -14,5 +14,5 @@ public interface OutstandingPeopleService {
     List<OutstandingPeopleEntity> findBySurname(String surname);
     List<OutstandingPeopleEntity> findByNameAndSurname(String name, String surname);
     OutstandingPeopleEntity create(OutstandingPersonCreateRequest outstandingPeopleCreateRequest);
-    OutstandingPeopleEntity update(OutstandingPersonUpdateRequest outstandingPeopleUpdateRequest);
+    OutstandingPeopleEntity update(OutstandingPersonUpdateRequest outstandingPeopleUpdateRequest, Long id);
 }

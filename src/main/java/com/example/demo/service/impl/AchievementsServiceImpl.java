@@ -45,8 +45,8 @@ public class AchievementsServiceImpl implements AchievementsService {
 
     @Override
     @Transactional
-    public AchievementsEntity update(AchievementUpdateRequest achievementsUpdateRequest) {
-        Optional<AchievementsEntity> optionalAchievements = achievementsRepository.findByIdAndDisplayTrue(achievementsUpdateRequest.getId());
+    public AchievementsEntity update(AchievementUpdateRequest achievementsUpdateRequest, Long id) {
+        Optional<AchievementsEntity> optionalAchievements = achievementsRepository.findByIdAndDisplayTrue(id);
         if (optionalAchievements.isPresent()) {
             AchievementsEntity achievementsEntity = optionalAchievements.get();
             achievementsMapper.updateEntity(achievementsEntity, achievementsUpdateRequest);

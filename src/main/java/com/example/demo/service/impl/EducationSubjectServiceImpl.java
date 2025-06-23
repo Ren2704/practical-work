@@ -34,8 +34,8 @@ public class EducationSubjectServiceImpl implements EducationSubjectService {
 
     @Override
     @Transactional
-    public EducationSubjectEntity update(EducationSubjectUpdateRequest educationSubjectUpdateRequest) {
-        Optional<EducationSubjectEntity> optionalEducationSubject = educationSubjectRepository.findByIdAndDisplayTrue(educationSubjectUpdateRequest.getId());
+    public EducationSubjectEntity update(EducationSubjectUpdateRequest educationSubjectUpdateRequest, Long id) {
+        Optional<EducationSubjectEntity> optionalEducationSubject = educationSubjectRepository.findByIdAndDisplayTrue(id);
         if (optionalEducationSubject.isPresent()) {
             EducationSubjectEntity educationSubjectEntity = optionalEducationSubject.get();
             educationSubjectMapper.updateEntity(educationSubjectEntity, educationSubjectUpdateRequest);

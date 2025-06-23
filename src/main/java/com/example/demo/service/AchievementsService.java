@@ -10,5 +10,5 @@ public interface AchievementsService {
     List<AchievementsEntity> findAll();
     List<AchievementsEntity> findByPersonId(Long id);
     AchievementsEntity create(AchievementCreateRequest achievementsCreateRequest);
-    AchievementsEntity update(AchievementUpdateRequest achievementsUpdateRequest);
+    AchievementsEntity update(AchievementUpdateRequest achievementsUpdateRequest, Long id);
 }

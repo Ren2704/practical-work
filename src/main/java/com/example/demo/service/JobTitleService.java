@@ -9,5 +9,5 @@ import java.util.List;
 public interface JobTitleService {
     List<JobTitleEntity> findAll();
     JobTitleEntity create(JobTitleCreateRequest jobTitleCreateRequest);
-    JobTitleEntity update(JobTitleUpdateRequest jobTitleUpdateRequest);
+    JobTitleEntity update(JobTitleUpdateRequest jobTitleUpdateRequest, Long id);
 }

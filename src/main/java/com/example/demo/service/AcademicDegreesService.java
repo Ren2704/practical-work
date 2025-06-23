@@ -9,6 +9,6 @@ import java.util.List;
 public interface AcademicDegreesService {
     List<AcademicDegreesEntity> findAll();
     AcademicDegreesEntity create(AcademicDegreesCreateRequest academicDegreesCreateRequest);
-    AcademicDegreesEntity update(AcademicDegreesUpdateRequest academicDegreesUpdateRequest);
+    AcademicDegreesEntity update(AcademicDegreesUpdateRequest academicDegreesUpdateRequest, Long id);
 
 }

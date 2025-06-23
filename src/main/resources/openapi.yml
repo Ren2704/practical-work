@@ -14,52 +14,16 @@ paths:
       tags:
         - users-controller
       summary: Отобразить всех пользователей
-      operationId: findAll
+      operationId: findAllUsers
       responses:
         200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
-
-    put:
-      tags:
-        - users-controller
-      summary: Изменить информацию о пользователе
-      operationId: update
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-        - name: login
-          in: query
-          description: Логин
-          required: true
-          schema:
-            type: string
-        - name: password
-          in: query
-          description: Пароль
-          required: true
-          schema:
-            type: string
-        - name: role
-          in: query
-          description: Роль
-          required: true
-          schema:
-            type: string
-            enum:
-              - NOT_SELECTED
-              - ADMIN
-              - EDITOR
-      responses:
-        200:
-          $ref: '#/components/responses/200'
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
         400:
           $ref: '#/components/responses/400'
         500:
@@ -68,34 +32,21 @@ paths:
     post:
       tags:
         - users-controller
-      summary: Создание нового пользователя
-      operationId: create
-      parameters:
-        - name: login
-          in: query
-          description: Логин
-          required: true
-          schema:
-            type: string
-        - name: password
-          in: query
-          description: Пароль
-          required: true
-          schema:
-            type: string
-        - name: role
-          in: query
-          description: Роль
-          required: true
-          schema:
-            type: string
-            enum:
-              - NOT_SELECTED
-              - ADMIN
-              - EDITOR
+      summary: Создать нового пользователя
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
       responses:
-        200:
-          $ref: '#/components/responses/200'
+        201:
+          description: Пользователь успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
         400:
           $ref: '#/components/responses/400'
         500:
@@ -106,7 +57,7 @@ paths:
       tags:
         - users-controller
       summary: Отобразить пользователя по ID
-      operationId: findById
+      operationId: findUserById
       parameters:
         - name: id
           in: path
@@ -117,16 +68,56 @@ paths:
           example: 1
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
         400:
           $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
         500:
           $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - users-controller
+      summary: Изменить информацию о пользователе по ID
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        200:
+          description: Пользователь успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
     delete:
       tags:
         - users-controller
       summary: Удалить пользователя по ID
-      operationId: delete
+      operationId: deleteUser
       parameters:
         - name: id
           in: path
@@ -136,10 +127,12 @@ paths:
             format: int64
           example: 1
       responses:
-        200:
-          $ref: '#/components/responses/200'
+        204:
+          description: Пользователь успешно удален
         400:
           $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
         500:
           $ref: '#/components/responses/500'
 
@@ -147,44 +140,17 @@ paths:
     get:
       tags:
         - academic-degrees-controller
-      summary: Отобразить все возможные учёные степени и людей, к которым они относятся
-      operationId: findAll_8
+      summary: Отобразить все учёные степени
+      operationId: findAllAcademicDegrees
       responses:
         200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
-
-    put:
-      tags:
-        - academic-degrees-controller
-      summary: Изменить информацию об ученой степени
-      operationId: update_8
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-            example: 3
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          $ref: '#/components/responses/200'
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcademicDegreesResponse'
         400:
           $ref: '#/components/responses/400'
         500:
@@ -194,34 +160,31 @@ paths:
       tags:
         - academic-degrees-controller
       summary: Создать новую учёную степень
-      operationId: create_8
-      parameters:
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
+      operationId: createAcademicDegree
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcademicDegreesCreateRequest'
       responses:
-        200:
-          $ref: '#/components/responses/200'
+        201:
+          description: Ученая степень успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicDegreesResponse'
         400:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
 
   /academicDegrees/{id}:
-    get:
+    put:
       tags:
         - academic-degrees-controller
-      summary: Найти всех выдающихся людей по учёной степени
-      operationId: findById_8
+      summary: Изменить информацию об ученой степени  по ID
+      operationId: updateAcademicDegree
       parameters:
         - name: id
           in: path
@@ -230,11 +193,23 @@ paths:
             type: integer
             format: int64
           example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcademicDegreesUpdateRequest'
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Ученая степень успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicDegreesResponse'
         400:
           $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
         500:
           $ref: '#/components/responses/500'
 
@@ -242,172 +217,51 @@ paths:
     get:
       tags:
         - academic-titles-controller
-      summary: Отобразить все возможные учёные звания и людей, к которым они относятся
-      operationId: findAll_7
+      summary: Отобразить все учёные звания
+      operationId: findAllAcademicTitles
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcademicTitlesResponse'
         400:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
-    put:
-      tags:
-        - academic-titles-controller
-      summary: Изменить информацию об ученом звании
-      operationId: update_7
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-            example: 3
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
+
     post:
       tags:
         - academic-titles-controller
       summary: Создать новое учёное звание
-      operationId: create_7
-      parameters:
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
+      operationId: createAcademicTitle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcademicTitlesCreateRequest'
       responses:
-        200:
-          $ref: '#/components/responses/200'
+        201:
+          description: Ученое звание успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicTitlesResponse'
         400:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
 
   /academicTitles/{id}:
-    get:
-      tags:
-        - academic-titles-controller
-      summary: Найти всех выдающихся людей по учёному званию
-      operationId: findById_7
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
-
-  /edacationSubject:
-    get:
-      tags:
-        - edacation-subject-controller
-      summary: Отобразить все возможные научные направления и людей, к которым они относятся
-      operationId: findAll_1
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
     put:
       tags:
-        - edacation-subject-controller
-      summary: Изменить информацию о научном направлении
-      operationId: update_1
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-            example: 3
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
-    post:
-      tags:
-        - edacation-subject-controller
-      summary: Создать новое научное направление
-      operationId: create_1
-      parameters:
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-        - name: shortName
-          in: query
-          description: сокращённое название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
-
-  /edacationSubject/{id}:
-    get:
-      tags:
-        - edacation-subject-controller
-      summary: Найти всех выдающихся людей по научному направлению
-      operationId: findById_1
+        - academic-titles-controller
+      summary: Изменить информацию об ученом звании по ID
+      operationId: updateAcademicTitle
       parameters:
         - name: id
           in: path
@@ -416,11 +270,100 @@ paths:
             type: integer
             format: int64
           example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcademicTitlesUpdateRequest'
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Ученое звание успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicTitlesResponse'
         400:
           $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /educationSubject:
+    get:
+      tags:
+        - education-subject-controller
+      summary: Отобразить все возможные научные направления
+      operationId: findAllEducationSubjects
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+    post:
+      tags:
+        - education-subject-controller
+      summary: Создать новое научное направление
+      operationId: createEducationSubject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EducationSubjectCreateRequest'
+      responses:
+        201:
+          description: Научное направление успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /educationSubject/{id}:
+    put:
+      tags:
+        - education-subject-controller
+      summary: Изменить информацию о научном направлении по ID
+      operationId: updateEducationSubject
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EducationSubjectUpdateRequest'
+      responses:
+        200:
+          description: Научное направление успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
         500:
           $ref: '#/components/responses/500'
 
@@ -429,103 +372,52 @@ paths:
       tags:
         - achievements-controller
       summary: Отобразить все достижения
-      operationId: findAll_6
+      operationId: findAllAchievements
       responses:
         200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
-    put:
-      tags:
-        - achievements-controller
-      summary: Изменить запись заслуги по id
-      operationId: update_6
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-        - name: title
-          in: query
-          description: Наименование
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: query
-          description: Год вручения
-          required: true
-          schema:
-            type: number
-        - name: description
-          in: query
-          description: Описание заслуги
-          required: true
-          schema:
-            type: string
-        - name: personId
-          in: query
-          description: ID сотрудника
-          required: true
-          schema:
-            type: number
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
-    post:
-      tags:
-        - achievements-controller
-      summary: Создать новую запись про достижение
-      operationId: create_6
-      parameters:
-        - name: title
-          in: query
-          description: Наименование
-          required: true
-          schema:
-            type: string
-        - name: year
-          in: query
-          description: Год вручения
-          required: true
-          schema:
-            type: number
-        - name: description
-          in: query
-          description: Описание заслуги
-          required: true
-          schema:
-            type: string
-        - name: personId
-          in: query
-          description: ID сотрудника
-          required: true
-          schema:
-            type: number
-      responses:
-        200:
-          $ref: '#/components/responses/200'
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AchievementResponse'
         400:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
 
-  /achievements/{id}:
+    post:
+      tags:
+        - achievements-controller
+      summary: Создать новую запись про достижение
+      operationId: createAchievement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AchievementCreateRequest'
+      responses:
+        201:
+          description: Достижение успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /achievements/{personId}:
     get:
       tags:
         - achievements-controller
-      summary: Найти достижение по id
-      operationId: findById_6
+      summary: Найти достижение по ID человека
+      operationId: findByPersonId
       parameters:
-        - name: id
+        - name: personId
           in: path
           required: true
           schema:
@@ -534,9 +426,51 @@ paths:
           example: 1
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Список достижений человека
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AchievementResponse'
         400:
           $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /achievements/{id}:
+    put:
+      tags:
+        - achievements-controller
+      summary: Изменить запись заслуги по ID
+      operationId: updateAchievement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AchievementUpdateRequest'
+      responses:
+        200:
+          description: Достижение успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
         500:
           $ref: '#/components/responses/500'
 
@@ -544,171 +478,40 @@ paths:
     get:
       tags:
         - outstanding-people-controller
-      summary: Отобразить всех выдающихся сотрудников, их достижения и публикации
-      operationId: findAll_4
+      summary: Отобразить всех выдающихся сотрудников
+      operationId: findAllOutstandingPeople
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OutstandingPeopleResponse'
         400:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
-    put:
-      tags:
-        - outstanding-people-controller
-      summary: Изменить информацию о сотруднике
-      operationId: update_4
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-        - name: name
-          in: query
-          description: Имя
-          required: true
-          schema:
-            type: string
-        - name: surname
-          in: query
-          description: Фамилия
-          required: true
-          schema:
-            type: string
-        - name: patronymic
-          in: query
-          description: Отчество
-          schema:
-            type: string
-        - name: gender
-          in: query
-          description: Пол
-          required: true
-          schema:
-            type: string
-            enum:
-              - NOT_SELECTED
-              - MALE
-              - FEMALE
-        - name: yearOfBirth
-          in: query
-          description: Год рождения
-          required: true
-          schema:
-            type: number
-        - name: yearOfDeath
-          in: query
-          description: Год смерти
-          schema:
-            type: number
-        - name: photoUrl
-          in: query
-          description: Ссылка на фото
-          schema:
-            type: string
-        - name: biography
-          in: query
-          description: Краткая биография
-          required: true
-          schema:
-            type: string
-        - name: academicTitles
-          in: query
-          description: Учёное звание
-          schema:
-            type: string
-        - name: academicDegrees
-          in: query
-          description: Учёная степень
-          schema:
-            type: string
-        - name: scientificFields
-          in: query
-          description: Научное направление
-          schema:
-            type: string
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
+
     post:
       tags:
         - outstanding-people-controller
-      summary: Создание нового сотрудника
-      operationId: create_4
-      parameters:
-        - name: name
-          in: query
-          description: Имя
-          required: true
-          schema:
-            type: string
-        - name: surname
-          in: query
-          description: Фамилия
-          required: true
-          schema:
-            type: string
-        - name: patronymic
-          in: query
-          description: Отчество
-          schema:
-            type: string
-        - name: gender
-          in: query
-          description: Пол
-          required: true
-          schema:
-            type: string
-            enum:
-              - NOT_SELECTED
-              - MALE
-              - FEMALE
-        - name: yearOfBirth
-          in: query
-          description: Год рождения
-          required: true
-          schema:
-            type: number
-        - name: yearOfDeath
-          in: query
-          description: Год смерти
-          schema:
-            type: number
-        - name: photoUrl
-          in: query
-          description: Ссылка на фото
-          schema:
-            type: string
-        - name: biography
-          in: query
-          description: Краткая биография
-          required: true
-          schema:
-            type: string
-        - name: academicTitles
-          in: query
-          description: Учёное звание
-          schema:
-            type: string
-        - name: academicDegrees
-          in: query
-          description: Учёная степень
-          schema:
-            type: string
-        - name: scientificFields
-          in: query
-          description: Научное направление
-          schema:
-            type: string
+      summary: Создать запись о новом сотруднике
+      operationId: createOutstandingPerson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutstandingPersonCreateRequest'
       responses:
-        200:
-          $ref: '#/components/responses/200'
+        201:
+          description: Запись успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutstandingPersonResponse'
         400:
           $ref: '#/components/responses/400'
         500:
@@ -718,8 +521,8 @@ paths:
     get:
       tags:
         - outstanding-people-controller
-      summary: Отобразить сотрудника по ID, его достижения и публикации
-      operationId: findById_4
+      summary: Отобразить сотрудника по его ID
+      operationId: findOutstandingPersonById
       parameters:
         - name: id
           in: path
@@ -730,9 +533,145 @@ paths:
           example: 1
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Найденный выдающийся человек
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutstandingPersonResponse'
         400:
           $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - outstanding-people-controller
+      summary: Изменить информацию о сотруднике по ID
+      operationId: updateOutstandingPerson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutstandingPersonUpdateRequest'
+      responses:
+        200:
+          description: Запись успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutstandingPersonResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstandingPeople/search/byName:
+    get:
+      tags:
+        - outstanding-people-controller
+      summary: Отобразить сотрудников по имени
+      operationId: findOutstandingPersonByName
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Имя для поиска
+          example: "Иван"
+      responses:
+        200:
+          description: Список найденных выдающихся людей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OutstandingPeopleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstandingPeople/search/bySurname:
+    get:
+      tags:
+        - outstanding-people-controller
+      summary: Отобразить сотрудников по фамилии
+      operationId: findOutstandingPersonBySurname
+      parameters:
+        - name: surname
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Фамилия для поиска
+          example: "Петров"
+      responses:
+        200:
+          description: Список найденных выдающихся людей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OutstandingPeopleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstandingPeople/search/byNameAndSurname:
+    get:
+      tags:
+        - outstanding-people-controller
+      summary: Отобразить сотрудника по имени и фамилии
+      operationId: findOutstandingPersonByNameAndSurname
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Имя для поиска
+          example: "Иван"
+        - name: surname
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Фамилия для поиска
+          example: "Петров"
+      responses:
+        200:
+          description: Список найденных выдающихся людей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OutstandingPeopleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
         500:
           $ref: '#/components/responses/500'
 
@@ -740,67 +679,51 @@ paths:
     get:
       tags:
         - job-title-controller
-      summary: Отобразить все возможные должности, в какие периоды их занимали и какие сотрудники
-      operationId: findAll_5
+      summary: Отобразить все возможные должности
+      operationId: findAllJobTitles
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobTitleResponse'
         400:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
-    put:
-      tags:
-        - job-title-controller
-      summary: Изменить информацию о должности
-      operationId: update_5
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-            example: 3
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
+
     post:
       tags:
         - job-title-controller
       summary: Создать новую должность
-      operationId: create_5
-      parameters:
-        - name: name
-          in: query
-          description: название
-          required: true
-          schema:
-            type: string
+      operationId: createJobTitle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobTitleCreateRequest'
       responses:
-        200:
-          $ref: '#/components/responses/200'
+        201:
+          description: Должность успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobTitleResponse'
         400:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
 
   /jobTitle/{id}:
-    get:
+    put:
       tags:
         - job-title-controller
-      summary: Найти по должности все периоды, когда должность занималась и кем
-      operationId: findById_5
+      summary: Изменить информацию о должности
+      operationId: updateJobTitle
       parameters:
         - name: id
           in: path
@@ -809,128 +732,56 @@ paths:
             type: integer
             format: int64
           example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobTitleUpdateRequest'
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Должность успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobTitleResponse'
         400:
           $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
         500:
           $ref: '#/components/responses/500'
 
   /personJob:
-    get:
-      tags:
-        - person-job-controller
-      summary: Отобразить все периоды, когда сотрудники работали в университете
-      operationId: findAll_3
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
-    put:
-      tags:
-        - person-job-controller
-      summary: Изменить по id связующую запись про период работы сотрудника на определённой должности
-      operationId: update_3
-      parameters:
-        - name: id
-          in: query
-          description: ID
-          required: true
-          schema:
-            type: number
-        - name: startYear
-          in: query
-          description: В каком году сотрудник получил должность
-          schema:
-            type: number
-        - name: endYear
-          in: query
-          description: В каком году сотрудник был снят с должности
-          schema:
-            type: number
-        - name: isCurrent
-          in: query
-          description: Актуальна ли должность
-          schema:
-            type: boolean
-            default: false
-            enum:
-              - true
-              - false
-        - name: personId
-          in: query
-          description: ID сотрудника
-          required: true
-          schema:
-            type: number
-        - name: jobTitle
-          in: query
-          description: Название должности
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          $ref: '#/components/responses/200'
-        400:
-          $ref: '#/components/responses/400'
-        500:
-          $ref: '#/components/responses/500'
     post:
       tags:
         - person-job-controller
-      summary: Создать новую связующую запись про период работы сотрудника на определённой должности
-      operationId: create_3
-      parameters:
-        - name: startYear
-          in: query
-          description: В каком году сотрудник получил должность
-          schema:
-            type: number
-        - name: endYear
-          in: query
-          description: В каком году сотрудник был снят с должности
-          schema:
-            type: number
-        - name: isCurrent
-          in: query
-          description: Актуальна ли должность
-          schema:
-            type: boolean
-            default: false
-            enum:
-              - true
-              - false
-        - name: personId
-          in: query
-          description: ID сотрудника
-          required: true
-          schema:
-            type: number
-        - name: jobTitle
-          in: query
-          description: Название должности
-          required: true
-          schema:
-            type: string
+      summary: Создать новую связующую запись сотрудник-должность
+      operationId: createPersonJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonJobCreateRequest'
       responses:
-        200:
-          $ref: '#/components/responses/200'
+        201:
+          description: Запись успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonJobResponse'
         400:
           $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
 
   /personJob/{id}:
-    get:
+    put:
       tags:
         - person-job-controller
-      summary: Найти по id определённый период
-      operationId: findById_3
+      summary: Изменить связующую запись по ID
+      operationId: updatePersonJob
       parameters:
         - name: id
           in: path
@@ -939,20 +790,91 @@ paths:
             type: integer
             format: int64
           example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonJobUpdateRequest'
       responses:
         200:
-          $ref: '#/components/responses/200'
+          description: Запись успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonJobResponse'
         400:
           $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
         500:
           $ref: '#/components/responses/500'
 
+  /personJob/person/{personId}:
+    get:
+      tags:
+        - person-job-controller
+      summary: Найти все должности сотрудника по его ID
+      operationId: findPersonJobByPersonId
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID сотрудника
+          example: 5
+      responses:
+        200:
+          description: Список должностей сотрудника
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /personJob/person/{personId}/current:
+    get:
+      tags:
+        - person-job-controller
+      summary: Найти текущую должность сотрудника по его ID
+      operationId: findPersonJobByPersonIdAndCurrent
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID сотрудника
+          example: 5
+      responses:
+        200:
+          description: Текущая должность сотрудника
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
 
 components:
 
   schemas:
 
-    AcademicDegreesResponse:
+    AcademicDegreesCreateRequest:
       type: object
       properties:
         name:
@@ -966,12 +888,17 @@ components:
       required:
         - name
 
-    AcademicDegreesCreateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AcademicDegreesResponse'
-        - type: object
-
     AcademicDegreesUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AcademicDegreesCreateRequest'
+        - type: object
+          properties:
+            display:
+              type: boolean
+              default: true
+              nullable: true
+
+    AcademicDegreesResponse:
       allOf:
         - $ref: '#/components/schemas/AcademicDegreesCreateRequest'
         - type: object
@@ -979,16 +906,11 @@ components:
             id:
               type: integer
               format: int64
-              description: Идентификатор ученой степени для обновления
-              example: 1
-            display:
-              type: boolean
-              default: true
-              nullable: true
+              description: ID учёной степени
           required:
             - id
 
-    AcademicTitlesResponse:
+    AcademicTitlesCreateRequest:
       type: object
       properties:
         name:
@@ -1002,12 +924,17 @@ components:
       required:
         - name
 
-    AcademicTitlesCreateRequest:
-      allOf:
-        - $ref: '#/components/schemas/AcademicTitlesResponse'
-        - type: object
-
     AcademicTitlesUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AcademicTitlesCreateRequest'
+        - type: object
+          properties:
+            display:
+              type: boolean
+              default: true
+              nullable: true
+
+    AcademicTitlesResponse:
       allOf:
         - $ref: '#/components/schemas/AcademicTitlesCreateRequest'
         - type: object
@@ -1015,16 +942,11 @@ components:
             id:
               type: integer
               format: int64
-              description: Идентификатор ученого звания для обновления
-              example: 1
-            display:
-              type: boolean
-              default: true
-              nullable: true
+              description: ID учёного звания
           required:
             - id
 
-    AchievementResponse:
+    Achievement:
       type: object
       properties:
         title:
@@ -1043,9 +965,21 @@ components:
       required:
         - title
 
+    AchievementResponse:
+      allOf:
+        - $ref: '#/components/schemas/Achievement'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: ID достижения
+          required:
+            - id
+
     AchievementCreateRequest:
       allOf:
-        - $ref: '#/components/schemas/AchievementResponse'
+        - $ref: '#/components/schemas/Achievement'
         - type: object
           properties:
             personId:
@@ -1061,19 +995,12 @@ components:
         - $ref: '#/components/schemas/AchievementCreateRequest'
         - type: object
           properties:
-            id:
-              type: integer
-              format: int64
-              description: Идентификатор достижения для обновления
-              example: 1
             display:
               type: boolean
               default: true
               nullable: true
-          required:
-            - id
 
-    EducationSubjectResponse:
+    EducationSubjectCreateRequest:
       type: object
       properties:
         name:
@@ -1087,12 +1014,17 @@ components:
       required:
         - name
 
-    EducationSubjectCreateRequest:
-      allOf:
-        - $ref: '#/components/schemas/EducationSubjectResponse'
-        - type: object
-
     EducationSubjectUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/EducationSubjectCreateRequest'
+        - type: object
+          properties:
+            display:
+              type: boolean
+              default: true
+              nullable: true
+
+    EducationSubjectResponse:
       allOf:
         - $ref: '#/components/schemas/EducationSubjectCreateRequest'
         - type: object
@@ -1100,16 +1032,11 @@ components:
             id:
               type: integer
               format: int64
-              description: Идентификатор учебного предмета для обновления
-              example: 1
-            display:
-              type: boolean
-              default: true
-              nullable: true
+              description: ID научного направления
           required:
             - id
 
-    JobTitleResponse:
+    JobTitleCreateRequest:
       type: object
       properties:
         name:
@@ -1119,12 +1046,17 @@ components:
       required:
         - name
 
-    JobTitleCreateRequest:
-      allOf:
-        - $ref: '#/components/schemas/JobTitleResponse'
-        - type: object
-
     JobTitleUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/JobTitleCreateRequest'
+        - type: object
+          properties:
+            display:
+              type: boolean
+              default: true
+              nullable: true
+
+    JobTitleResponse:
       allOf:
         - $ref: '#/components/schemas/JobTitleCreateRequest'
         - type: object
@@ -1132,18 +1064,17 @@ components:
             id:
               type: integer
               format: int64
-              description: Идентификатор должности для обновления
-              example: 1
-            display:
-              type: boolean
-              default: true
-              nullable: true
+              description: ID должности
           required:
             - id
 
-    OutstandingPersonResponse:
+    OutstandingPeopleResponse:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
+          description: ID человека
         name:
           type: string
           description: Имя
@@ -1153,58 +1084,65 @@ components:
         patronymic:
           type: string
           description: Отчество
-        gender:
-          type: string
-          enum: [ NOT_SELECTED, MALE, FEMALE ]
-          description: Пол
-        yearOfBirth:
-          type: integer
-          format: int32
-          description: Год рождения
-        yearOfDeath:
-          type: integer
-          format: int32
-          description: Год смерти
-        photoUrl:
-          type: string
-          description: URL фотографии
-        biography:
-          type: string
-          description: Краткая биография
-        academicDegree:
-          allOf:
-            - $ref: '#/components/schemas/AcademicDegreesResponse'
-            - type: object
-          nullable: true
-          readOnly: true
-        academicTitles:
-          allOf:
-            - $ref: '#/components/schemas/AcademicTitlesResponse'
-            - type: object
-          nullable: true
-          readOnly: true
-        educationSubject:
-          allOf:
-            - $ref: '#/components/schemas/EducationSubjectResponse'
-            - type: object
-          nullable: true
-          readOnly: true
-        achievements:
-          type: array
-          items:
-            $ref: '#/components/schemas/AchievementResponse'
-          description: Список достижений
-          readOnly: true
-        jobs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PersonJobResponse'
-          description: Список должностей
-          readOnly: true
       required:
+        - id
         - name
         - surname
         - patronymic
+
+    OutstandingPersonResponse:
+      allOf:
+        - $ref: '#/components/schemas/OutstandingPeopleResponse'
+        - type: object
+          properties:
+            gender:
+              type: string
+              enum: [ NOT_SELECTED, MALE, FEMALE ]
+              description: Пол
+            yearOfBirth:
+              type: integer
+              format: int32
+              description: Год рождения
+            yearOfDeath:
+              type: integer
+              format: int32
+              description: Год смерти
+            photoUrl:
+              type: string
+              description: URL фотографии
+            biography:
+              type: string
+              description: Краткая биография
+            academicDegree:
+              allOf:
+                - $ref: '#/components/schemas/AcademicDegreesResponse'
+                - type: object
+              nullable: true
+              readOnly: true
+            academicTitles:
+              allOf:
+                - $ref: '#/components/schemas/AcademicTitlesResponse'
+                - type: object
+              nullable: true
+              readOnly: true
+            educationSubject:
+              allOf:
+                - $ref: '#/components/schemas/EducationSubjectResponse'
+                - type: object
+              nullable: true
+              readOnly: true
+            achievements:
+              type: array
+              items:
+                $ref: '#/components/schemas/AchievementResponse'
+              description: Список достижений
+              readOnly: true
+            jobs:
+              type: array
+              items:
+                $ref: '#/components/schemas/PersonJobResponse'
+              description: Список должностей
+              readOnly: true
 
     OutstandingPersonCreateRequest:
       type: object
@@ -1268,21 +1206,18 @@ components:
         - $ref: '#/components/schemas/OutstandingPersonCreateRequest'
         - type: object
           properties:
-            id:
-              type: integer
-              format: int64
-              description: Идентификатор человека для обновления
-              example: 1
             display:
               type: boolean
               default: true
               nullable: true
-          required:
-            - id
 
     PersonJobResponse:
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
+          description: ID записи
         jobTitle:
           allOf:
             - $ref: '#/components/schemas/JobTitleResponse'
@@ -1299,6 +1234,8 @@ components:
         current:
           type: boolean
           description: Является ли должность актуальной
+      required:
+          - id
 
     PersonJobCreateRequest:
       type: object
@@ -1337,17 +1274,10 @@ components:
         - $ref: '#/components/schemas/PersonJobCreateRequest'
         - type: object
           properties:
-            id:
-              type: integer
-              format: int64
-              description: Идентификатор поля для обновления
-              example: 1
             display:
               type: boolean
               default: true
               nullable: true
-          required:
-            - id
 
     UserResponse:
       type: object
@@ -1355,7 +1285,7 @@ components:
         id:
           type: integer
           format: int64
-          description: Идентификатор пользователя
+          description: ID пользователя
         login:
           type: string
           description: Логин пользователя
@@ -1394,25 +1324,11 @@ components:
       allOf:
         - $ref: '#/components/schemas/UserCreateRequest'
         - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              description: Идентификатор пользователя для обновления
-              example: 1
-          required:
-            - id
 
   responses:
-    200:
-      description: Изменение информации о пользователе в базе данных
-      content:
-        application/json: { }
     400:
       description: Некорректный запрос
-      content:
-        application/json: { }
+    404:
+      description: Ресурс не найден
     500:
       description: Внутренняя ошибка сервера
-      content:
-        application/json: { }

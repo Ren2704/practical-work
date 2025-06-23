@@ -35,8 +35,8 @@ public class JobTitleServiceImpl implements JobTitleService {
 
     @Override
     @Transactional
-    public JobTitleEntity update(JobTitleUpdateRequest jobTitleUpdateRequest) {
-        Optional<JobTitleEntity> optionalJobTitle = jobTitleRepository.findByIdAndDisplayTrue(jobTitleUpdateRequest.getId());
+    public JobTitleEntity update(JobTitleUpdateRequest jobTitleUpdateRequest, Long id) {
+        Optional<JobTitleEntity> optionalJobTitle = jobTitleRepository.findByIdAndDisplayTrue(id);
         if (optionalJobTitle.isPresent()) {
             JobTitleEntity jobTitleEntity = optionalJobTitle.get();
             jobTitleMapper.updateEntity(jobTitleEntity, jobTitleUpdateRequest);

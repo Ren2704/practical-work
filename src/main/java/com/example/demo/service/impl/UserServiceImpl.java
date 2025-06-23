@@ -41,8 +41,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserEntity update(UserUpdateRequest userUpdateRequest) {
-        Optional<UserEntity> optionalUser = usersRepository.findById(userUpdateRequest.getId());
+    public UserEntity update(UserUpdateRequest userUpdateRequest, Long id) {
+        Optional<UserEntity> optionalUser = usersRepository.findById(id);
         if (optionalUser.isPresent()) {
             UserEntity userEntity = optionalUser.get();
             userMapper.updateEntity(userEntity, userUpdateRequest);

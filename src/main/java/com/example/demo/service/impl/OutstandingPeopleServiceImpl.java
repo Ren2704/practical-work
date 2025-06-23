@@ -67,8 +67,8 @@ public class OutstandingPeopleServiceImpl implements OutstandingPeopleService {
     }
     @Override
     @Transactional
-    public OutstandingPeopleEntity update(OutstandingPersonUpdateRequest outstandingPeopleUpdateRequest) {
-        Optional<OutstandingPeopleEntity> optionalOutstandingPeople = outstandingPeopleRepository.findByIdAndDisplayTrue(outstandingPeopleUpdateRequest.getId());
+    public OutstandingPeopleEntity update(OutstandingPersonUpdateRequest outstandingPeopleUpdateRequest, Long id) {
+        Optional<OutstandingPeopleEntity> optionalOutstandingPeople = outstandingPeopleRepository.findByIdAndDisplayTrue(id);
         if (optionalOutstandingPeople.isPresent()) {
             OutstandingPeopleEntity outstandingPeopleEntity = optionalOutstandingPeople.get();
             outstandingPeopleMapper.updateEntity(outstandingPeopleEntity, outstandingPeopleUpdateRequest);

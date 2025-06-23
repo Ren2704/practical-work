@@ -9,5 +9,5 @@ import java.util.List;
 public interface EducationSubjectService {
     List<EducationSubjectEntity> findAll();
     EducationSubjectEntity create(EducationSubjectCreateRequest educationSubjectCreateRequest);
-    EducationSubjectEntity update(EducationSubjectUpdateRequest educationSubjectUpdateRequest);
+    EducationSubjectEntity update(EducationSubjectUpdateRequest educationSubjectUpdateRequest, Long id);
 }

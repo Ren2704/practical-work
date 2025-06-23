@@ -35,8 +35,8 @@ public class AcademicTitlesServiceImpl implements AcademicTitlesService {
 
     @Override
     @Transactional
-    public AcademicTitlesEntity update(AcademicTitlesUpdateRequest academicTitlesUpdateRequest) {
-        Optional<AcademicTitlesEntity> optionalAcademicTitles = academicTitlesRepository.findByIdAndDisplayTrue(academicTitlesUpdateRequest.getId());
+    public AcademicTitlesEntity update(AcademicTitlesUpdateRequest academicTitlesUpdateRequest, Long id) {
+        Optional<AcademicTitlesEntity> optionalAcademicTitles = academicTitlesRepository.findByIdAndDisplayTrue(id);
         if (optionalAcademicTitles.isPresent()) {
             AcademicTitlesEntity academicTitlesEntity = optionalAcademicTitles.get();
             academicTitlesMapper.updateEntity(academicTitlesEntity, academicTitlesUpdateRequest);

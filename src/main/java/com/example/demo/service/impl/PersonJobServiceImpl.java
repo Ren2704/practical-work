@@ -48,8 +48,8 @@ public class PersonJobServiceImpl implements PersonJobService {
 
     @Override
     @Transactional
-    public PersonJobEntity update(PersonJobUpdateRequest personJobUpdateRequest) {
-        Optional<PersonJobEntity> optionalPersonJob = personJobRepository.findByIdAndDisplayTrue(personJobUpdateRequest.getId());
+    public PersonJobEntity update(PersonJobUpdateRequest personJobUpdateRequest, Long id) {
+        Optional<PersonJobEntity> optionalPersonJob = personJobRepository.findByIdAndDisplayTrue(id);
         if (optionalPersonJob.isPresent()) {
             PersonJobEntity personJobEntity = optionalPersonJob.get();
             personJobMapper.updateEntity(personJobEntity, personJobUpdateRequest);

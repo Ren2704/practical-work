@@ -2,8 +2,11 @@ package com.example.demo.mapper;
 
 import com.example.demo.entity.JobTitleEntity;
 import com.example.model.JobTitleCreateRequest;
+import com.example.model.JobTitleResponse;
 import com.example.model.JobTitleUpdateRequest;
 import org.mapstruct.*;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface JobTitleMapper {
@@ -16,4 +19,7 @@ public interface JobTitleMapper {
     @Mapping(target = "personJob", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(@MappingTarget JobTitleEntity entity, JobTitleUpdateRequest request);
+
+    JobTitleResponse entityMapToResponse(JobTitleEntity entity);
+    List<JobTitleResponse> entityMapToResponseList(List<JobTitleEntity> entities);
 }

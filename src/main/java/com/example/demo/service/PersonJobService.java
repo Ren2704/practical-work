@@ -11,5 +11,5 @@ public interface PersonJobService {
     List<PersonJobEntity> findByPersonId(Long personId);
     Optional<PersonJobEntity> findByPersonIdAndCurrent(Long personId);
     PersonJobEntity create(PersonJobCreateRequest personJobCreateRequest);
-    PersonJobEntity update(PersonJobUpdateRequest personJobUpdateRequest);
+    PersonJobEntity update(PersonJobUpdateRequest personJobUpdateRequest, Long id);
 }

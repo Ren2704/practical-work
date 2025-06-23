@@ -34,8 +34,8 @@ public class AcademicDegreesServiceImpl implements AcademicDegreesService {
 
     @Override
     @Transactional
-    public AcademicDegreesEntity update(AcademicDegreesUpdateRequest academicDegreesUpdateRequest) {
-        Optional<AcademicDegreesEntity> optionalAcademicDegrees  = academicDegreesRepository.findByIdAndDisplayTrue(academicDegreesUpdateRequest.getId());
+    public AcademicDegreesEntity update(AcademicDegreesUpdateRequest academicDegreesUpdateRequest, Long id) {
+        Optional<AcademicDegreesEntity> optionalAcademicDegrees  = academicDegreesRepository.findByIdAndDisplayTrue(id);
         if (optionalAcademicDegrees.isPresent()) {
             AcademicDegreesEntity academicDegreesEntity = optionalAcademicDegrees.get();
             academicDegreesMapper.updateEntity(academicDegreesEntity, academicDegreesUpdateRequest);
