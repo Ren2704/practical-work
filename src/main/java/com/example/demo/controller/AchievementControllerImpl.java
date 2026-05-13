@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.api.PersonJobControllerApi;
+import com.example.api.AchievementControllerApi;
 import com.example.demo.constants.Roles;
-import com.example.demo.service.PersonJobService;
-import com.example.model.PersonJobCreateRequest;
-import com.example.model.PersonJobResponse;
-import com.example.model.PersonJobUpdateRequest;
+import com.example.demo.service.AchievementService;
+import com.example.model.AchievementCreateRequest;
+import com.example.model.AchievementResponse;
+import com.example.model.AchievementUpdateRequest;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,66 +16,60 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class PersonJobControllerImpl implements PersonJobControllerApi {
+public class AchievementControllerImpl implements AchievementControllerApi {
 
-    private final PersonJobService service;
+    private final AchievementService service;
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonJobResponse> findAllPersonJob() {
+    public List<AchievementResponse> findAllAchievements() {
         return service.findAll();
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public List<PersonJobResponse> findAllDeletedPersonJob() {
+    public List<AchievementResponse> findAllDeletedAchievements() {
         return service.findAllDeleted();
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public PersonJobResponse findPersonJobById(Long id) {
+    public AchievementResponse findAchievementById(Long id) {
         return service.findById(id);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public PersonJobResponse findDeletedPersonJobById(Long id) {
+    public AchievementResponse findDeletedAchievementById(Long id) {
         return service.findDeletedById(id);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonJobResponse> findPersonJobByPersonId(Long personId) {
+    public List<AchievementResponse> findByPersonId(Long personId) {
         return service.findByPersonId(personId);
-    }
-
-    @Override
-    @ResponseStatus(HttpStatus.OK)
-    public PersonJobResponse findPersonJobByPersonIdAndCurrent(Long personId) {
-        return service.findByPersonIdAndCurrent(personId);
     }
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public PersonJobResponse createPersonJob(PersonJobCreateRequest personJobCreateRequest) {
-        return service.create(personJobCreateRequest);
+    public AchievementResponse createAchievement(AchievementCreateRequest achievementCreateRequest) {
+        return service.create(achievementCreateRequest);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public PersonJobResponse updatePersonJob(Long id, PersonJobUpdateRequest personJobUpdateRequest) {
-        return service.update(personJobUpdateRequest,id);
+    public AchievementResponse updateAchievement(Long id, AchievementUpdateRequest achievementUpdateRequest) {
+        return service.update(achievementUpdateRequest, id);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public PersonJobResponse recoverPersonJob(Long id) {
+    public AchievementResponse recoverAchievement(Long id) {
         return service.recover(id);
     }
 }

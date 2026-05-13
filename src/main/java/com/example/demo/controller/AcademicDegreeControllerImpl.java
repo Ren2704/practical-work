@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.api.JobTitleControllerApi;
+import com.example.api.AcademicDegreeControllerApi;
 import com.example.demo.constants.Roles;
-import com.example.demo.service.JobTitleService;
-import com.example.model.JobTitleCreateRequest;
-import com.example.model.JobTitleResponse;
-import com.example.model.JobTitleUpdateRequest;
+import com.example.demo.service.AcademicDegreeService;
+import com.example.model.AcademicDegreeCreateRequest;
+import com.example.model.AcademicDegreeResponse;
+import com.example.model.AcademicDegreeUpdateRequest;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,54 +16,54 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class JobTitleControllerImpl implements JobTitleControllerApi {
+public class AcademicDegreeControllerImpl implements AcademicDegreeControllerApi {
 
-    private final JobTitleService service;
+    private final AcademicDegreeService service;
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public List<JobTitleResponse> findAllJobTitles() {
+    public List<AcademicDegreeResponse> findAllAcademicDegrees() {
         return service.findAll();
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public List<JobTitleResponse> findAllDeletedJobTitles() {
+    public List<AcademicDegreeResponse> findAllDeletedAcademicDegrees() {
         return service.findAllDeleted();
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public JobTitleResponse findJobTitleById(Long id) {
+    public AcademicDegreeResponse findAcademicDegreeById(Long id) {
         return service.findById(id);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public JobTitleResponse findDeletedJobTitleById(Long id) {
+    public AcademicDegreeResponse findDeletedAcademicDegreeById(Long id) {
         return service.findDeletedById(id);
     }
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public JobTitleResponse createJobTitle(JobTitleCreateRequest jobTitleCreateRequest) {
-        return service.create(jobTitleCreateRequest);
+    public AcademicDegreeResponse createAcademicDegree(AcademicDegreeCreateRequest academicDegreeCreateRequest) {
+        return service.create(academicDegreeCreateRequest);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public JobTitleResponse updateJobTitle(Long id, JobTitleUpdateRequest jobTitleUpdateRequest) {
-        return service.update(jobTitleUpdateRequest,id);
+    public AcademicDegreeResponse updateAcademicDegree(Long id, AcademicDegreeUpdateRequest academicDegreeUpdateRequest) {
+        return service.update(academicDegreeUpdateRequest, id);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public JobTitleResponse recoverJobTitle(Long id) {
+    public AcademicDegreeResponse recoverAcademicDegree(Long id) {
         return service.recover(id);
     }
 }

@@ -1,11 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.api.JobTitleControllerApi;
+import com.example.api.AcademicTitleControllerApi;
 import com.example.demo.constants.Roles;
-import com.example.demo.service.JobTitleService;
-import com.example.model.JobTitleCreateRequest;
-import com.example.model.JobTitleResponse;
-import com.example.model.JobTitleUpdateRequest;
+import com.example.demo.service.AcademicTitleService;
+import com.example.model.*;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,54 +14,54 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class JobTitleControllerImpl implements JobTitleControllerApi {
+public class AcademicTitleControllerImpl implements AcademicTitleControllerApi {
 
-    private final JobTitleService service;
+    private final AcademicTitleService service;
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public List<JobTitleResponse> findAllJobTitles() {
+    public List<AcademicTitleResponse> findAllAcademicTitles() {
         return service.findAll();
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public List<JobTitleResponse> findAllDeletedJobTitles() {
+    public List<AcademicTitleResponse> findAllDeletedAcademicTitles() {
         return service.findAllDeleted();
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public JobTitleResponse findJobTitleById(Long id) {
+    public AcademicTitleResponse findAcademicTitleById(Long id) {
         return service.findById(id);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public JobTitleResponse findDeletedJobTitleById(Long id) {
+    public AcademicTitleResponse findDeletedAcademicTitleById(Long id) {
         return service.findDeletedById(id);
     }
 
     @Override
     @ResponseStatus(HttpStatus.CREATED)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public JobTitleResponse createJobTitle(JobTitleCreateRequest jobTitleCreateRequest) {
-        return service.create(jobTitleCreateRequest);
+    public AcademicTitleResponse createAcademicTitle(AcademicTitleCreateRequest academicTitleCreateRequest) {
+        return service.create(academicTitleCreateRequest);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public JobTitleResponse updateJobTitle(Long id, JobTitleUpdateRequest jobTitleUpdateRequest) {
-        return service.update(jobTitleUpdateRequest,id);
+    public AcademicTitleResponse updateAcademicTitle(Long id, AcademicTitleUpdateRequest academicTitleUpdateRequest) {
+        return service.update(academicTitleUpdateRequest, id);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public JobTitleResponse recoverJobTitle(Long id) {
+    public AcademicTitleResponse recoverAcademicTitle(Long id) {
         return service.recover(id);
     }
 }
