@@ -31,6 +31,7 @@ openApiGenerate {
     apiPackage = "com.example.api"
     modelPackage = "com.example.model"
     configOptions = [
+            useResponseEntity: "false",
             interfaceOnly: "true",
             useSpringBoot3: "true",
             useTags: "true",
@@ -56,6 +57,10 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
+
+    implementation 'org.flywaydb:flyway-core'
+    runtimeOnly 'org.flywaydb:flyway-database-postgresql'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
