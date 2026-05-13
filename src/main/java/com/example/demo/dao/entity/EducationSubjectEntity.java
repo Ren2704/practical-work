@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -11,7 +11,7 @@ import java.util.Collections;
 @Setter
 @Getter
 
-@EqualsAndHashCode(exclude = {"person"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(exclude = {"person"})
 
 @Builder
@@ -20,8 +20,8 @@ import java.util.Collections;
 
 public class EducationSubjectEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "education_subject_id_seq")
-    @SequenceGenerator(name = "education_subject_id_seq", sequenceName = "education_subject_id_seq", allocationSize = 1, initialValue = 13)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column (nullable = false, unique = true)
@@ -30,12 +30,12 @@ public class EducationSubjectEntity {
     @Column (name = "short_name")
     private String shortName;
 
-    @Column
     @Builder.Default
-    private Boolean display = true;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 
-    @OneToMany(mappedBy = "educationSubject", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "educationSubject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     @Builder.Default
-    private Set<OutstandingPeopleEntity> person = Collections.emptySet();
+    private Set<OutstandingPersonEntity> person = Collections.emptySet();
 }

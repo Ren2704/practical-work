@@ -1,6 +1,6 @@
-package com.example.demo.entity;
+package com.example.demo.dao.entity;
 
-import com.example.demo.enums.Gender;
+import com.example.demo.dao.entity.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -14,70 +14,78 @@ import java.util.Set;
 @Setter
 @Getter
 
-@EqualsAndHashCode(exclude = {"academicTitles", "academicDegrees", "educationSubject", "achievements", "personJob"})
-@ToString(exclude = {"academicTitles", "academicDegrees", "educationSubject", "achievements", "personJob"})
-
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
 @Table(name = "outstanding_people")
 
-public class OutstandingPeopleEntity {
+public class OutstandingPersonEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "outstanding_people_id_seq")
-    @SequenceGenerator(name = "outstanding_people_id_seq", sequenceName = "outstanding_people_id_seq", allocationSize = 1, initialValue = 21)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    @ToString.Include
     private Long id;
 
     @Column(nullable = false)
+    @ToString.Include
     private String name;
 
     @Column(nullable = false)
+    @ToString.Include
     private String surname;
 
     @Column(nullable = false)
+    @ToString.Include
     private String patronymic;
 
-    @Column
     @Enumerated(EnumType.STRING)
     @Builder.Default
+    @ToString.Include
     private Gender gender = Gender.NOT_SELECTED;
 
-    @Column(name = "year_of_birth", nullable = true)
+    @Column(name = "year_of_birth")
+    @ToString.Include
     private int yearOfBirth;
 
     @Column(name = "year_of_death")
+    @ToString.Include
     private Integer yearOfDeath;
 
     @Column(name = "photo_url")
+    @ToString.Include
     private String photoUrl;
 
     @Column(columnDefinition = "TEXT")
+    @ToString.Include
     private String biography;
 
-    @Column
     @Builder.Default
-    private Boolean display = true;
+    @ToString.Include
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 
     @ManyToOne
     @JoinColumn(name = "id_academic_titles")
     @JsonBackReference
-    private AcademicTitlesEntity academicTitles;
+    private AcademicTitleEntity academicTitles;
 
     @ManyToOne
     @JoinColumn(name = "id_academic_degrees")
     @JsonBackReference
-    private AcademicDegreesEntity academicDegrees;
+    private AcademicDegreeEntity academicDegrees;
 
     @ManyToOne
     @JoinColumn(name = "id_education_subject")
     @JsonBackReference
     private EducationSubjectEntity educationSubject;
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     @Builder.Default
-    private Set<AchievementsEntity> achievements = Collections.emptySet();
+    private Set<AchievementEntity> achievements = Collections.emptySet();
 
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     @Builder.Default
     private Set<PersonJobEntity> personJob = Collections.emptySet();

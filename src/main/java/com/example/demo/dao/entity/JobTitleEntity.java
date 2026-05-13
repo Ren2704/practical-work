@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package com.example.demo.dao.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Setter
 @Getter
 
-@EqualsAndHashCode(exclude = {"personJob"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(exclude = {"personJob"})
 
 @Builder
@@ -23,18 +23,18 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 public class JobTitleEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "job_title_id_seq")
-    @SequenceGenerator(name = "job_title_id_seq", sequenceName = "job_title_id_seq", allocationSize = 1, initialValue = 6)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column (nullable = false, unique = true)
     private String name;
 
-    @Column
     @Builder.Default
-    private Boolean display = true;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 
-    @OneToMany(mappedBy = "jobTitle", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "jobTitle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     @Builder.Default
     private Set<PersonJobEntity> personJob = Collections.emptySet();
