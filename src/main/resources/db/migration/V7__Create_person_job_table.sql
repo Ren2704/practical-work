@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS person_job (
     start_year INTEGER,
     end_year INTEGER,
     is_current BOOLEAN DEFAULT FALSE,
-    is_deleted BOOLEAN DEFAULT FALSE,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
     id_person BIGINT NOT NULL,
     id_job_title BIGINT NOT NULL,
 
@@ -14,6 +14,5 @@ CREATE TABLE IF NOT EXISTS person_job (
     CONSTRAINT chk_person_job_years CHECK (
         (end_year IS NULL AND is_current = TRUE) OR
         (end_year >= start_year AND is_current = FALSE) OR
-        (start_year IS NULL)
-        )
+        (start_year IS NULL))
 );

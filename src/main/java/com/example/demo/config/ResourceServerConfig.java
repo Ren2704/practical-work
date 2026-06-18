@@ -37,6 +37,7 @@ public class ResourceServerConfig {
                                 "/outstanding-people/{personId}/achievements",
                                 "/outstanding-people",
                                 "/outstanding-people/{id}",
+                                "/outstanding-people/{id}/photo",
                                 "/outstanding-people/search/**",
                                 "/job-titles",
                                 "/job-titles/{id}",
@@ -45,6 +46,7 @@ public class ResourceServerConfig {
                                 "/outstanding-people/{personId}/jobs",
                                 "/outstanding-people/{personId}/jobs/current")
                         .permitAll()
+                        .requestMatchers(HttpMethod.POST, "/outstanding-people/recognize").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/users",
                                 "/users/{id}",

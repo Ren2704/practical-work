@@ -6,17 +6,14 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Setter
 @Getter
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString()
 
-@Builder
 @Entity
 @Table(name = "users")
-
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +27,5 @@ public class UserEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Builder.Default
     private Role role = Role.NOT_SELECTED;
 }

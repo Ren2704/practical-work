@@ -11,11 +11,12 @@ public interface JobTitleMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "personJob", ignore = true)
     @Mapping(target = "isDeleted", constant = "false")
+    @Mapping(target = "deletedAt", ignore = true)
     JobTitleEntity toEntity(JobTitleCreateRequest request);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "personJob", ignore = true)
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "deletedAt", ignore = true)
     void updateEntity(@MappingTarget JobTitleEntity entity, JobTitleUpdateRequest request);
 
     JobTitleResponse toResponse(JobTitleEntity entity);

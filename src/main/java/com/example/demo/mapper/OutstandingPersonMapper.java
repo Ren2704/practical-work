@@ -1,35 +1,56 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dao.entity.OutstandingPersonEntity;
-import com.example.model.OutstandingPersonResponse;
-import com.example.model.OutstandingPersonCreateRequest;
-import com.example.model.OutstandingPersonUpdateRequest;
-import com.example.model.PersonResponse;
+import com.example.demo.mapper.helper.PersonMapperHelper;
+import com.example.model.*;
 import org.mapstruct.*;
+import org.springframework.data.domain.Slice;
 
-@Mapper(componentModel = "spring", uses = {AchievementMapper.class, PersonJobMapper.class})
+import java.util.List;
+
+@Mapper(componentModel = "spring",
+        uses = {
+                AcademicDegreeMapper.class,
+                AcademicTitleMapper.class,
+                EducationSubjectMapper.class,
+                PersonMapperHelper.class,
+        }
+)
 public interface OutstandingPersonMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "achievements", ignore = true)
     @Mapping(target = "personJob", ignore = true)
-    @Mapping(target = "academicTitles", ignore = true)
-    @Mapping(target = "academicDegrees", ignore = true)
+    @Mapping(target = "academicTitle", ignore = true)
+    @Mapping(target = "academicDegree", ignore = true)
     @Mapping(target = "educationSubject", ignore = true)
     @Mapping(target = "isDeleted", constant = "false")
+    @Mapping(target = "deletedAt", ignore = true)
     OutstandingPersonEntity toEntity(OutstandingPersonCreateRequest request);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "achievements", ignore = true)
     @Mapping(target = "personJob", ignore = true)
-    @Mapping(target = "academicTitles", ignore = true)
-    @Mapping(target = "academicDegrees", ignore = true)
+    @Mapping(target = "academicTitle", ignore = true)
+    @Mapping(target = "academicDegree", ignore = true)
     @Mapping(target = "educationSubject", ignore = true)
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "deletedAt", ignore = true)
     void updateEntity(@MappingTarget OutstandingPersonEntity entity, OutstandingPersonUpdateRequest request);
 
-    @Mapping(target = "academicDegree", source = "academicDegrees")
-    @Mapping(target = "jobs", source = "personJob")
     OutstandingPersonResponse toResponse(OutstandingPersonEntity entity);
-
     PersonResponse toSimpleResponse(OutstandingPersonEntity entity);
+
+    default PersonSliceResponse toSliceResponse(Slice<OutstandingPersonEntity> slice) {
+        List<PersonResponse> content = slice.getContent().stream().map(this::toSimpleResponse).toList();
+
+        PersonSliceResponse response = new PersonSliceResponse();
+        response.setContent(content);
+        response.setPage(slice.getNumber());
+        response.setSize(slice.getSize());
+        response.setHasNext(slice.hasNext());
+
+        return response;
+    }
+
+    @Mapping(target = "photoUrl", source = "entity", qualifiedByName = "mapPhotoUrl")
+    PhotoResponse toPhotoResponse(OutstandingPersonEntity entity);
 }

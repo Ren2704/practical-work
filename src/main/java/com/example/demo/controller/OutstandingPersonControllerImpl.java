@@ -3,15 +3,18 @@ package com.example.demo.controller;
 import com.example.api.OutstandingPersonControllerApi;
 import com.example.demo.constants.Roles;
 import com.example.demo.service.OutstandingPersonService;
-import com.example.model.OutstandingPersonResponse;
-import com.example.model.OutstandingPersonCreateRequest;
-import com.example.model.PersonResponse;
-import com.example.model.OutstandingPersonUpdateRequest;
+import com.example.model.*;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,15 +26,17 @@ public class OutstandingPersonControllerImpl implements OutstandingPersonControl
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResponse> findAllOutstandingPeople() {
-        return service.findAll();
+    public PersonSliceResponse findAllOutstandingPeople(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return service.findAll(pageable);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
-    public List<PersonResponse> findAllDeletedOutstandingPeople() {
-        return service.findAllDeleted();
+    public PersonSliceResponse findAllDeletedOutstandingPeople(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return service.findAllDeleted(pageable);
     }
 
     @Override
@@ -49,20 +54,23 @@ public class OutstandingPersonControllerImpl implements OutstandingPersonControl
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResponse> findOutstandingPersonByName(String name) {
-        return service.findByName(name);
+    public PersonSliceResponse findOutstandingPersonByName(String name, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
+        return service.findByName(name, pageable);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResponse> findOutstandingPersonBySurname(String surname) {
-        return service.findBySurname(surname);
+    public PersonSliceResponse findOutstandingPersonBySurname(String surname, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("surname"));
+        return service.findBySurname(surname, pageable);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
-    public List<PersonResponse> findOutstandingPersonByNameAndSurname(String name, String surname) {
-        return service.findByNameAndSurname(name,surname);
+    public PersonSliceResponse findOutstandingPersonByNameAndSurname(String name, String surname, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("surname"));
+        return service.findByNameAndSurname(name, surname, pageable);
     }
 
     @Override
@@ -84,5 +92,24 @@ public class OutstandingPersonControllerImpl implements OutstandingPersonControl
     @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
     public OutstandingPersonResponse recoverOutstandingPerson(Long id) {
         return service.recover(id);
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    public Resource getPersonPhoto(Long id) {
+        return service.getPhoto(id);
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    @RolesAllowed({Roles.ADMIN, Roles.EDITOR})
+    public PhotoResponse updatePersonPhoto(Long id, MultipartFile photo) {
+        return service.updatePhoto(id, photo);
+    }
+
+    @Override
+    @ResponseStatus(HttpStatus.OK)
+    public List<PersonResponse> recognizePersonPhoto(MultipartFile photo) {
+        return service.recognizePhoto(photo);
     }
 }

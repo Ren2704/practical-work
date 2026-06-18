@@ -888,15 +888,27 @@ paths:
         - outstanding-person-controller
       summary: Отобразить всех выдающихся сотрудников
       operationId: findAllOutstandingPeople
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
       responses:
         200:
           description: Успешный запрос
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PersonResponse'
+                $ref: '#/components/schemas/PersonSliceResponse'
         400:
           $ref: '#/components/responses/400'
         500:
@@ -931,15 +943,27 @@ paths:
         - outstanding-person-controller
       summary: Отобразить всех удалённых выдающихся сотрудников
       operationId: findAllDeletedOutstandingPeople
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
       responses:
         200:
           description: Успешный запрос
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PersonResponse'
+                $ref: '#/components/schemas/PersonSliceResponse'
         400:
           $ref: '#/components/responses/400'
         500:
@@ -1003,6 +1027,94 @@ paths:
           $ref: '#/components/responses/400'
         404:
           $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/{id}/photo:
+    get:
+      tags:
+        - outstanding-person-controller
+      summary: Получить фото пользователя
+      operationId: getPersonPhoto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Фото пользователя
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+
+    put:
+      tags:
+        - outstanding-person-controller
+      summary: Обновить фото пользователя
+      operationId: updatePersonPhoto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PersonPhotoRequest'
+            encoding:
+              photo:
+                contentType: image/jpeg
+      responses:
+        200:
+          description: Фото успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhotoResponse'
+
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/recognize:
+    post:
+      tags:
+        - outstanding-person-controller
+      summary: Распознать сотрудника по фото
+      operationId: recognizePersonPhoto
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PersonPhotoRequest'
+            encoding:
+              photo:
+                contentType: image/jpeg
+      responses:
+        200:
+          description: Похожие сотрудники
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonResponse'
+        400:
+          $ref: '#/components/responses/400'
         500:
           $ref: '#/components/responses/500'
 
@@ -1075,15 +1187,26 @@ paths:
             type: string
           description: Имя для поиска
           example: "Иван"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
       responses:
         200:
           description: Список найденных выдающихся людей
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PersonResponse'
+                $ref: '#/components/schemas/PersonSliceResponse'
         400:
           $ref: '#/components/responses/400'
         404:
@@ -1105,15 +1228,26 @@ paths:
             type: string
           description: Фамилия для поиска
           example: "Петров"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
       responses:
         200:
           description: Список найденных выдающихся людей
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PersonResponse'
+                $ref: '#/components/schemas/PersonSliceResponse'
         400:
           $ref: '#/components/responses/400'
         404:
@@ -1142,15 +1276,26 @@ paths:
             type: string
           description: Фамилия для поиска
           example: "Петров"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
       responses:
         200:
           description: Список найденных выдающихся людей
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PersonResponse'
+                $ref: '#/components/schemas/PersonSliceResponse'
         400:
           $ref: '#/components/responses/400'
         404:
@@ -1584,6 +1729,44 @@ components:
 
   schemas:
 
+    PersonPhotoRequest:
+      type: object
+      properties:
+        photo:
+          type: string
+          format: binary
+          description: Фото пользователя
+      required:
+        - photo
+
+    PhotoResponse:
+      type: object
+      properties:
+        photoUrl:
+          type: string
+          description: Url к фото пользователя
+        contentType:
+          type: string
+          example: image/jpeg
+          description: JPG type изображения
+      required:
+        - photoUrl
+        - contentType
+
+    RecognitionResponse:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Идентификатор субъекта
+        similarity:
+          type: number
+          format: double
+          description: Степень схожести (0-1)
+      required:
+        - subject
+        - similarity
+
     AcademicDegreeCreateRequest:
       type: object
       properties:
@@ -1800,6 +1983,23 @@ components:
         - surname
         - patronymic
 
+    PersonSliceResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonResponse'
+        page:
+          type: integer
+          example: 0
+        size:
+            type: integer
+            example: 10
+        hasNext:
+          type: boolean
+          example: true
+
     OutstandingPersonResponse:
       allOf:
         - $ref: '#/components/schemas/PersonResponse'
@@ -1829,7 +2029,7 @@ components:
                 - type: object
               nullable: true
               readOnly: true
-            AcademicTitle:
+            academicTitle:
               allOf:
                 - $ref: '#/components/schemas/AcademicTitleResponse'
                 - type: object
@@ -1840,18 +2040,6 @@ components:
                 - $ref: '#/components/schemas/EducationSubjectResponse'
                 - type: object
               nullable: true
-              readOnly: true
-            achievements:
-              type: array
-              items:
-                $ref: '#/components/schemas/AchievementResponse'
-              description: Список достижений
-              readOnly: true
-            jobs:
-              type: array
-              items:
-                $ref: '#/components/schemas/PersonJobResponse'
-              description: Список должностей
               readOnly: true
 
     OutstandingPersonCreateRequest:

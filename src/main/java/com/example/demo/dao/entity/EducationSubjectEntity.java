@@ -1,23 +1,21 @@
 package com.example.demo.dao.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.Collections;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Setter
 @Getter
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(exclude = {"person"})
 
-@Builder
 @Entity
 @Table(name = "education_subject")
-
 public class EducationSubjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,12 +28,12 @@ public class EducationSubjectEntity {
     @Column (name = "short_name")
     private String shortName;
 
-    @Builder.Default
     @Column(name = "is_deleted")
     private Boolean isDeleted = false;
 
+    @Column(name = "deleted_at")
+    private OffsetDateTime deletedAt;
+
     @OneToMany(mappedBy = "educationSubject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
-    @Builder.Default
-    private Set<OutstandingPersonEntity> person = Collections.emptySet();
+    private Set<OutstandingPersonEntity> person = new HashSet<>();
 }

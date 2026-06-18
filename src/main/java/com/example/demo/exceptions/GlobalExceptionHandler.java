@@ -22,8 +22,14 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler({PhotoProcessingException.class, RuntimeException.class})
     public ErrorResponse handleException(RuntimeException ex, HttpServletRequest request) {
         return ErrorResponse.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    @ExceptionHandler(CompreFaceException.class)
+    public ErrorResponse handleCompreFace(CompreFaceException ex, HttpServletRequest request) {
+        return ErrorResponse.buildErrorResponse(HttpStatus.BAD_GATEWAY, ex.getMessage(), request);
     }
 }

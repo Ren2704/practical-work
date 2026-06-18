@@ -1,4 +1,4 @@
-package com.example.demo.mapper;
+package com.example.demo.mapper.helper;
 
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.Named;

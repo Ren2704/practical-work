@@ -5,16 +5,18 @@ import com.example.demo.dao.repository.AcademicDegreeRepository;
 import com.example.demo.dao.repository.AcademicTitleRepository;
 import com.example.demo.dao.repository.EducationSubjectRepository;
 import com.example.demo.exceptions.NotFoundException;
-import com.example.model.OutstandingPersonResponse;
-import com.example.model.OutstandingPersonCreateRequest;
-import com.example.model.OutstandingPersonUpdateRequest;
+import com.example.demo.service.CompreFaceService;
+import com.example.model.*;
 import com.example.demo.mapper.OutstandingPersonMapper;
 import com.example.demo.dao.repository.OutstandingPersonRepository;
 import com.example.demo.service.OutstandingPersonService;
-import com.example.model.PersonResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,20 +28,20 @@ public class OutstandingPersonServiceImpl implements OutstandingPersonService {
     private final EducationSubjectRepository educationSubjectRepository;
     private final AcademicDegreeRepository academicDegreeRepository;
     private final AcademicTitleRepository academicTitleRepository;
-
+    private final CompreFaceService compreFaceService;
 
     @Override
     @Transactional(readOnly = true)
-    public List<PersonResponse> findAll() {
-        List<OutstandingPersonEntity> outstandingPersonEntity = repository.findByIsDeletedFalseOrderBySurnameAsc();
-        return outstandingPersonEntity.stream().map(mapper::toSimpleResponse).toList();
+    public PersonSliceResponse findAll(Pageable pageable) {
+        Slice<OutstandingPersonEntity> slice = repository.findByIsDeletedFalseOrderBySurnameAsc(pageable);
+        return mapper.toSliceResponse(slice);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PersonResponse> findAllDeleted() {
-        List<OutstandingPersonEntity> outstandingPersonEntity = repository.findByIsDeletedTrueOrderBySurnameAsc();
-        return outstandingPersonEntity.stream().map(mapper::toSimpleResponse).toList();
+    public PersonSliceResponse findAllDeleted(Pageable pageable) {
+        Slice<OutstandingPersonEntity> slice = repository.findByIsDeletedTrueOrderBySurnameAsc(pageable);
+        return mapper.toSliceResponse(slice);
     }
 
     @Override
@@ -58,23 +60,23 @@ public class OutstandingPersonServiceImpl implements OutstandingPersonService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PersonResponse> findByName(String name) {
-        List<OutstandingPersonEntity> outstandingPersonEntity = repository.findByNameContainingIgnoreCaseAndIsDeletedFalse(name);
-        return outstandingPersonEntity.stream().map(mapper::toSimpleResponse).toList();
+    public PersonSliceResponse findByName(String name, Pageable pageable) {
+        Slice<OutstandingPersonEntity> slice = repository.findByNameContainingIgnoreCaseAndIsDeletedFalse(name, pageable);
+        return mapper.toSliceResponse(slice);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PersonResponse> findBySurname(String surname) {
-        List<OutstandingPersonEntity> outstandingPersonEntity = repository.findBySurnameContainingIgnoreCaseAndIsDeletedFalse(surname);
-        return outstandingPersonEntity.stream().map(mapper::toSimpleResponse).toList();
+    public PersonSliceResponse findBySurname(String surname, Pageable pageable) {
+        Slice<OutstandingPersonEntity> slice = repository.findBySurnameContainingIgnoreCaseAndIsDeletedFalse(surname,  pageable);
+        return mapper.toSliceResponse(slice);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PersonResponse> findByNameAndSurname(String name, String surname) {
-        List<OutstandingPersonEntity> outstandingPersonEntity = repository.findByNameContainingIgnoreCaseAndSurnameContainingIgnoreCaseAndIsDeletedFalse(name, surname);
-        return outstandingPersonEntity.stream().map(mapper::toSimpleResponse).toList();
+    public PersonSliceResponse findByNameAndSurname(String name, String surname, Pageable pageable) {
+        Slice<OutstandingPersonEntity> slice = repository.findByNameContainingIgnoreCaseAndSurnameContainingIgnoreCaseAndIsDeletedFalse(name, surname, pageable);
+        return mapper.toSliceResponse(slice);
     }
 
     @Override
@@ -87,6 +89,7 @@ public class OutstandingPersonServiceImpl implements OutstandingPersonService {
         repository.save(outstandingPersonEntity);
         return mapper.toResponse(outstandingPersonEntity);
     }
+
     @Override
     @Transactional
     public OutstandingPersonResponse update(OutstandingPersonUpdateRequest outstandingPersonUpdateRequest, Long id) {
@@ -106,6 +109,37 @@ public class OutstandingPersonServiceImpl implements OutstandingPersonService {
         return mapper.toResponse(outstandingPersoneEntity);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Resource getPhoto(Long id) {
+        OutstandingPersonEntity outstandingPersonEntity = findOutstandingPersonById(id);
+        // получаем url и тип фото из бд (если бд пустая - возвращаем пустоту)
+        // получаем фото из файловой системы
+        // отдаём фотку и тип
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public PhotoResponse updatePhoto(Long id, MultipartFile photo) {
+        OutstandingPersonEntity outstandingPersonEntity = findOutstandingPersonById(id);
+        compreFaceService.deletePhotoExamples(id);
+        compreFaceService.addPhotoExamples(id, photo);
+        // сжимаем фото
+        // сохраняем фото в файловой системе
+        // записываем в бд ссылку на фото и расширение (mapper.updatePhotoEntity(photo, outstandingPersonEntity);)
+        return mapper.toPhotoResponse(outstandingPersonEntity);
+    }
+
+    @Override
+    @Transactional
+    public List<PersonResponse> recognizePhoto(MultipartFile photo) {
+        List<RecognitionResponse> recognitionResponse = compreFaceService.recognizeFaces(photo);
+        // если степень схожести меньше 0.75 - не выводим
+        // если степень схожести больше 0.75 - получаем пользователя по id subject(строку надо распарсить в Long) и записываем в List<PersonResponse>
+        return List.of();
+    }
+
     private OutstandingPersonEntity findOutstandingPersonById(Long id) {
         return repository.findByIdAndIsDeletedFalse(id).orElseThrow(
                 () -> new NotFoundException("Outstanding person not found with id: " + id)
@@ -122,14 +156,14 @@ public class OutstandingPersonServiceImpl implements OutstandingPersonService {
         AcademicDegreeEntity academicDegree = academicDegreeRepository.findByNameIgnoreCaseAndIsDeletedFalse(academicDegreeName).orElseThrow(
                 () -> new NotFoundException("Academic degree not found with name: " + academicDegreeName)
         );
-        entity.setAcademicDegrees(academicDegree);
+        entity.setAcademicDegree(academicDegree);
     }
 
     private void setAcademicTitleFromRequest(OutstandingPersonEntity entity, String academicTitleName) {
         AcademicTitleEntity academicTitle = academicTitleRepository.findByNameIgnoreCaseAndIsDeletedFalse(academicTitleName).orElseThrow(
                 () -> new NotFoundException("Academic title not found with name: " + academicTitleName)
         );
-        entity.setAcademicTitles(academicTitle);
+        entity.setAcademicTitle(academicTitle);
     }
 
     private void setEducationSubjectFromRequest(OutstandingPersonEntity entity, String educationSubjectName) {

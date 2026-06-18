@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS achievements (
     title VARCHAR(100) NOT NULL,
     year INTEGER NOT NULL,
     description TEXT,
-    is_deleted BOOLEAN DEFAULT FALSE,
+    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
     id_person BIGINT NOT NULL,
 
     CONSTRAINT fk_achievements_person

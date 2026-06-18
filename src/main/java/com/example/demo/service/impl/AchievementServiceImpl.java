@@ -55,7 +55,7 @@ public class AchievementServiceImpl implements AchievementService {
     @Override
     @Transactional(readOnly = true)
     public List<AchievementResponse> findByPersonId(Long id) {
-        List<AchievementEntity> achievementEntity = repository.findByPersonIdAndIsDeletedFalseOrderByYearDesc(id);
+        List<AchievementEntity> achievementEntity = repository.findAchievementByPersonId(id);
         return achievementEntity.stream().map(mapper::toResponse).toList();
     }
 

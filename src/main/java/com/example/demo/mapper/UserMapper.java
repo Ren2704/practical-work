@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 
 import com.example.demo.dao.entity.UserEntity;
+import com.example.demo.mapper.helper.UserMapperHelper;
 import com.example.model.UserCreateRequest;
 import com.example.model.UserResponse;
 import com.example.model.UserUpdateRequest;
@@ -15,7 +16,6 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", source = "password", qualifiedByName = "encodePassword")
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(@MappingTarget UserEntity entity, UserUpdateRequest request);
 
     UserResponse toResponse(UserEntity entity);

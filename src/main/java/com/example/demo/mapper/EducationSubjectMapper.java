@@ -11,11 +11,12 @@ public interface EducationSubjectMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "person", ignore = true)
     @Mapping(target = "isDeleted", constant = "false")
+    @Mapping(target = "deletedAt", ignore = true)
     EducationSubjectEntity toEntity(EducationSubjectCreateRequest request);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "person", ignore = true)
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "deletedAt", ignore = true)
     void updateEntity(@MappingTarget EducationSubjectEntity entity, EducationSubjectUpdateRequest request);
 
     EducationSubjectResponse toResponse(EducationSubjectEntity entity);

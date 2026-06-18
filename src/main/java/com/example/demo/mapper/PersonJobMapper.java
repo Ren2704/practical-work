@@ -12,12 +12,13 @@ public interface PersonJobMapper {
     @Mapping(target = "person", ignore = true)
     @Mapping(target = "jobTitle", ignore = true)
     @Mapping(target = "isDeleted", constant = "false")
+    @Mapping(target = "deletedAt", ignore = true)
     PersonJobEntity toEntity(PersonJobCreateRequest request);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "person", ignore = true)
     @Mapping(target = "jobTitle", ignore = true)
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "deletedAt", ignore = true)
     void updateEntity(@MappingTarget PersonJobEntity entity, PersonJobUpdateRequest request);
 
     PersonJobResponse toResponse(PersonJobEntity entity);
