@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    show-sql: true
+compreface:
+  api:
+    url: ${COMPREFACE_API}
+    key: ${COMPREFERENCE_KEY}
+
