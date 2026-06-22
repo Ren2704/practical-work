@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler({PhotoProcessingException.class, RuntimeException.class})
+    @ExceptionHandler({PhotoProcessingException.class, RecognitionException.class, RuntimeException.class})
     public ErrorResponse handleException(RuntimeException ex, HttpServletRequest request) {
         return ErrorResponse.buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request);
     }
