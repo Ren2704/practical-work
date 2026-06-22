@@ -1,12 +1,14 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.constants.CompreFace;
 import com.example.demo.exceptions.CompreFaceException;
+import com.example.demo.mapper.CompreFaceMapper;
+import com.example.demo.model.CompreFaceResponse;
+import com.example.demo.model.RecognitionResponse;
 import com.example.demo.service.CompreFaceService;
-import com.example.model.RecognitionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,19 +16,21 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 public class CompreFaceServiceImpl implements CompreFaceService {
     private final WebClient webClient;
+    private final CompreFaceMapper mapper;
 
     @Override
     @Transactional
     public void deletePhotoExamples(Long id) {
         webClient.delete()
                 .uri(uriBuilder -> uriBuilder
-                        .path("recognition/faces")
-                        .queryParam("subject", id)
+                        .path(CompreFace.FACES_PATH)
+                        .queryParam(CompreFace.SUBJECT_PARAM, id)
                         .build())
                 .retrieve()
                 .onStatus(
@@ -43,12 +47,12 @@ public class CompreFaceServiceImpl implements CompreFaceService {
     public void addPhotoExamples(Long id, MultipartFile file) {
         webClient.post()
                 .uri(uriBuilder -> uriBuilder
-                        .path("recognition/faces")
-                        .queryParam("subject", id.toString())
-                        .queryParam("det_prob_threshold", 0.7)
+                        .path(CompreFace.FACES_PATH)
+                        .queryParam(CompreFace.SUBJECT_PARAM, id.toString())
+                        .queryParam(CompreFace.SIMILARITY_PARAM, CompreFace.SIMILARITY_VALUE)
                         .build())
                 .contentType(MediaType.MULTIPART_FORM_DATA)
-                .body(BodyInserters.fromMultipartData("file", file.getResource()))
+                .body(BodyInserters.fromMultipartData(CompreFace.FILE_FORM_FIELD, file.getResource()))
                 .retrieve()
                 .onStatus(
                         HttpStatusCode::isError,
@@ -62,15 +66,15 @@ public class CompreFaceServiceImpl implements CompreFaceService {
     @Override
     @Transactional
     public List<RecognitionResponse> recognizeFaces(MultipartFile file) {
-        String responses = webClient.post()
+        CompreFaceResponse compreFaceResponse = webClient.post()
                 .uri(uriBuilder -> uriBuilder
-                        .path("recognition/recognize")
-                        .queryParam("limit", 1)
-                        .queryParam("prediction_count", 5)
-                        .queryParam("det_prob_threshold", 0.75)
+                        .path(CompreFace.RECOGNIZE_PATH)
+                        .queryParam(CompreFace.LIMIT_FACES_IN_PHOTO, CompreFace.LIMIT_VALUE)
+                        .queryParam(CompreFace.PREDICTION_COUNT, CompreFace.PREDICTION_VALUE)
+                        .queryParam(CompreFace.SIMILARITY_PARAM, CompreFace.SIMILARITY_VALUE)
                         .build())
                 .contentType(MediaType.MULTIPART_FORM_DATA)
-                .body(BodyInserters.fromMultipartData("file", file.getResource()))
+                .body(BodyInserters.fromMultipartData(CompreFace.FILE_FORM_FIELD, file.getResource()))
                 .retrieve()
                 .onStatus(
                         HttpStatusCode::isError,
@@ -80,6 +84,10 @@ public class CompreFaceServiceImpl implements CompreFaceService {
                 .bodyToMono(CompreFaceResponse.class)
                 .block();
 
-        return parseResponse(response);
+        return Objects.requireNonNull(compreFaceResponse).getResult().stream()
+                .filter(result -> result.getSubjects() != null)
+                .flatMap(result -> result.getSubjects().stream())
+                .map(mapper::toRecognitionResponse)
+                .toList();
     }
 }

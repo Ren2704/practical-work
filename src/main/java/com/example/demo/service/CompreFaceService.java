@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.model.RecognitionResponse;
+import com.example.demo.model.RecognitionResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
