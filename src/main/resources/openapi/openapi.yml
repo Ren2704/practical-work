@@ -1742,7 +1742,7 @@ components:
     PhotoResponse:
       type: object
       properties:
-        photoUrl:
+        photoLink:
           type: string
           description: Url к фото пользователя
         contentType:
@@ -1750,22 +1750,8 @@ components:
           example: image/jpeg
           description: JPG type изображения
       required:
-        - photoUrl
+        - photoLink
         - contentType
-
-    RecognitionResponse:
-      type: object
-      properties:
-        subject:
-          type: string
-          description: Идентификатор субъекта
-        similarity:
-          type: number
-          format: double
-          description: Степень схожести (0-1)
-      required:
-        - subject
-        - similarity
 
     AcademicDegreeCreateRequest:
       type: object
@@ -2017,9 +2003,6 @@ components:
               type: integer
               format: int32
               description: Год смерти
-            photoUrl:
-              type: string
-              description: URL фотографии
             biography:
               type: string
               description: Краткая биография

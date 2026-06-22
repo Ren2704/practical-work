@@ -1,6 +1,5 @@
 package com.example.demo.dao.entity;
 
-
 import com.example.demo.dao.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;

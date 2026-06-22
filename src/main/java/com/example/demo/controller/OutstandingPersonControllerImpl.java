@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +20,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class OutstandingPersonControllerImpl implements OutstandingPersonControllerApi {
+    private static final String NAME = "name";
+    private static final String SURNAME = "surname";
 
     private final OutstandingPersonService service;
 
@@ -55,21 +56,21 @@ public class OutstandingPersonControllerImpl implements OutstandingPersonControl
     @Override
     @ResponseStatus(HttpStatus.OK)
     public PersonSliceResponse findOutstandingPersonByName(String name, Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(NAME));
         return service.findByName(name, pageable);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     public PersonSliceResponse findOutstandingPersonBySurname(String surname, Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("surname"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(SURNAME));
         return service.findBySurname(surname, pageable);
     }
 
     @Override
     @ResponseStatus(HttpStatus.OK)
     public PersonSliceResponse findOutstandingPersonByNameAndSurname(String name, String surname, Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("surname"));
+        Pageable pageable = PageRequest.of(page, size, Sort.by(SURNAME));
         return service.findByNameAndSurname(name, surname, pageable);
     }
 

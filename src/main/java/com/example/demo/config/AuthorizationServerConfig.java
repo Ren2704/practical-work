@@ -1,11 +1,13 @@
 package com.example.demo.config;
 
+import com.example.demo.constants.Roles;
 import com.example.demo.security.util.JwksKeys;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -42,6 +44,12 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableWebSecurity
 public class AuthorizationServerConfig {
+    private static final String CLIENT_ID = "my-client";
+    private static final String CLIENT_SECRET = "my-secret";
+    private static final String LOGIN_API = "/login";
+
+    @Value("${app.public-base-url}")
+    private String publicBaseUrl;
 
     @Bean
     @Order(1)
@@ -55,7 +63,7 @@ public class AuthorizationServerConfig {
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().authenticated())
                 .exceptionHandling((ex) -> ex.defaultAuthenticationEntryPointFor(
-                        new LoginUrlAuthenticationEntryPoint("/login"),
+                        new LoginUrlAuthenticationEntryPoint(LOGIN_API),
                         new MediaTypeRequestMatcher(MediaType.TEXT_HTML))
                 );
         return http.build();
@@ -65,15 +73,14 @@ public class AuthorizationServerConfig {
     public RegisteredClientRepository registeredClientRepository(PasswordEncoder passwordEncoder) {
         RegisteredClient registeredClient = RegisteredClient
                 .withId(UUID.randomUUID().toString())
-                .clientId("my-client")
-                .clientSecret(passwordEncoder.encode("my-secret"))
+                .clientId(CLIENT_ID)
+                .clientSecret(passwordEncoder.encode(CLIENT_SECRET))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-
-                .redirectUri("http://localhost:8080/login/oauth2/code/my-client")
-                .postLogoutRedirectUri("http://localhost:8080/")
+                .redirectUri(publicBaseUrl + "login/oauth2/code/" + CLIENT_ID)
+                .postLogoutRedirectUri(publicBaseUrl)
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
                 .tokenSettings(TokenSettings.builder()
@@ -116,7 +123,7 @@ public class AuthorizationServerConfig {
                     List<String> roles = principal.getAuthorities().stream()
                             .map(GrantedAuthority::getAuthority)
                             .collect(Collectors.toList());
-                    context.getClaims().claim("roles", roles);
+                    context.getClaims().claim(Roles.ROLES_CLAIM, roles);
                 }
             }
         };

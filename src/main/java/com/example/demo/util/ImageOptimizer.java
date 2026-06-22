@@ -38,7 +38,7 @@ public class ImageOptimizer {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Thumbnails.of(image)
                 .crop(Positions.CENTER)
-                .size(100, 100)
+                .size(500, 500)
                 .outputFormat(format)
                 .toOutputStream(outputStream);
         return outputStream.toByteArray();

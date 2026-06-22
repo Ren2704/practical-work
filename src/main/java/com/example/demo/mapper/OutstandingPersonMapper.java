@@ -23,11 +23,15 @@ public interface OutstandingPersonMapper {
     @Mapping(target = "academicTitle", ignore = true)
     @Mapping(target = "academicDegree", ignore = true)
     @Mapping(target = "educationSubject", ignore = true)
+    @Mapping(target = "photoLink", ignore = true)
+    @Mapping(target = "contentType", ignore = true)
     @Mapping(target = "isDeleted", constant = "false")
     @Mapping(target = "deletedAt", ignore = true)
     OutstandingPersonEntity toEntity(OutstandingPersonCreateRequest request);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "photoLink", ignore = true)
+    @Mapping(target = "contentType", ignore = true)
     @Mapping(target = "achievements", ignore = true)
     @Mapping(target = "personJob", ignore = true)
     @Mapping(target = "academicTitle", ignore = true)
@@ -51,6 +55,6 @@ public interface OutstandingPersonMapper {
         return response;
     }
 
-    @Mapping(target = "photoUrl", source = "entity", qualifiedByName = "mapPhotoUrl")
+    @Mapping(target = "photoLink", source = "entity", qualifiedByName = "mapPhotoUrl")
     PhotoResponse toPhotoResponse(OutstandingPersonEntity entity);
 }

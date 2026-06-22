@@ -1,6 +1,5 @@
 package com.example.demo.dao.repository;
 
-
 import com.example.demo.dao.entity.PersonJobEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;

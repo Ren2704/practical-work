@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.constants.Roles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -19,13 +20,15 @@ public class ResourceServerConfig {
 
     @Bean
     @Order(0)
-    public SecurityFilterChain publicEndpoints(HttpSecurity http, JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
+    public SecurityFilterChain publicEndpoints(HttpSecurity http, JwtAuthenticationConverter jwtAuthenticationConverter)
+            throws Exception {
         http
-                .securityMatcher("/academic-degrees/**", "/academic-titles/**", "/education-subjects/**",
+                .securityMatcher("/","/academic-degrees/**", "/academic-titles/**", "/education-subjects/**",
                         "/achievements/**", "/outstanding-people/**", "/job-titles/**", "/person-jobs/**",
                         "/users/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET,
+                                "/",
                                 "/academic-degrees",
                                 "/academic-degrees/{id}",
                                 "/academic-titles",
@@ -49,7 +52,6 @@ public class ResourceServerConfig {
                         .requestMatchers(HttpMethod.POST, "/outstanding-people/recognize").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/users",
-                                "/users/{id}",
                                 "/users/{id}",
                                 "/academic-degrees/deleted",
                                 "/academic-degrees/deleted/{id}",
@@ -83,8 +85,8 @@ public class ResourceServerConfig {
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
+        grantedAuthoritiesConverter.setAuthorityPrefix(Roles.ROLE_PREFIX);
+        grantedAuthoritiesConverter.setAuthoritiesClaimName(Roles.ROLES_CLAIM);
 
         JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
         jwtConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);

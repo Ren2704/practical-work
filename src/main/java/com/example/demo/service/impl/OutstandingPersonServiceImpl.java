@@ -5,20 +5,32 @@ import com.example.demo.dao.repository.AcademicDegreeRepository;
 import com.example.demo.dao.repository.AcademicTitleRepository;
 import com.example.demo.dao.repository.EducationSubjectRepository;
 import com.example.demo.exceptions.NotFoundException;
+import com.example.demo.exceptions.PhotoProcessingException;
+import com.example.demo.exceptions.RecognitionException;
+import com.example.demo.model.RecognitionResponse;
 import com.example.demo.service.CompreFaceService;
+import com.example.demo.util.ImageOptimizer;
 import com.example.model.*;
 import com.example.demo.mapper.OutstandingPersonMapper;
 import com.example.demo.dao.repository.OutstandingPersonRepository;
 import com.example.demo.service.OutstandingPersonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +41,9 @@ public class OutstandingPersonServiceImpl implements OutstandingPersonService {
     private final AcademicDegreeRepository academicDegreeRepository;
     private final AcademicTitleRepository academicTitleRepository;
     private final CompreFaceService compreFaceService;
+
+    @Value("${app.upload-dir}")
+    private String uploadDir;
 
     @Override
     @Transactional(readOnly = true)
@@ -113,10 +128,17 @@ public class OutstandingPersonServiceImpl implements OutstandingPersonService {
     @Transactional(readOnly = true)
     public Resource getPhoto(Long id) {
         OutstandingPersonEntity outstandingPersonEntity = findOutstandingPersonById(id);
-        // получаем url и тип фото из бд (если бд пустая - возвращаем пустоту)
-        // получаем фото из файловой системы
-        // отдаём фотку и тип
-        return null;
+        String photoLink = outstandingPersonEntity.getPhotoLink();
+        if (photoLink == null || photoLink.isEmpty()) return null;
+        try {
+            Path filePath = Paths.get(photoLink);
+            if (!Files.exists(filePath)) {
+                throw new NotFoundException("Photo file not found: " + filePath);
+            }
+            return new FileSystemResource(filePath);
+        } catch (Exception e) {
+            throw new PhotoProcessingException("Error reading photo" + e);
+        }
     }
 
     @Override
@@ -125,9 +147,22 @@ public class OutstandingPersonServiceImpl implements OutstandingPersonService {
         OutstandingPersonEntity outstandingPersonEntity = findOutstandingPersonById(id);
         compreFaceService.deletePhotoExamples(id);
         compreFaceService.addPhotoExamples(id, photo);
-        // сжимаем фото
-        // сохраняем фото в файловой системе
-        // записываем в бд ссылку на фото и расширение (mapper.updatePhotoEntity(photo, outstandingPersonEntity);)
+        byte[] compressedPhoto;
+        try {
+            compressedPhoto = ImageOptimizer.compress(photo);
+        } catch (IOException e) {
+            throw new PhotoProcessingException("Failed to compress photo");
+        }
+        String extension = MediaType.parseMediaType(Objects.requireNonNull(photo.getContentType())).getSubtype();
+        String fileName = "person_" + id + "." + extension;
+        Path filePath = Paths.get(uploadDir).resolve(fileName);
+        try {
+            Files.write(filePath, compressedPhoto);
+        } catch (IOException e) {
+            throw new PhotoProcessingException("Failed to save photo");
+        }
+        outstandingPersonEntity.setPhotoLink(filePath.toString());
+        outstandingPersonEntity.setContentType(photo.getContentType());
         return mapper.toPhotoResponse(outstandingPersonEntity);
     }
 
@@ -135,9 +170,19 @@ public class OutstandingPersonServiceImpl implements OutstandingPersonService {
     @Transactional
     public List<PersonResponse> recognizePhoto(MultipartFile photo) {
         List<RecognitionResponse> recognitionResponse = compreFaceService.recognizeFaces(photo);
-        // если степень схожести меньше 0.75 - не выводим
-        // если степень схожести больше 0.75 - получаем пользователя по id subject(строку надо распарсить в Long) и записываем в List<PersonResponse>
-        return List.of();
+        return recognitionResponse.stream()
+                .filter(response -> response.getSimilarity() != null && response.getSimilarity() >= 0.7)
+                .map(RecognitionResponse::getSubject)
+                .map(subjectId -> {
+                    try {
+                        Long id = Long.parseLong(subjectId);
+                        OutstandingPersonEntity person = findOutstandingPersonById(id);
+                        return mapper.toSimpleResponse(person);
+                    } catch (NumberFormatException e) {
+                        throw new RecognitionException(e + " Invalid subject ID format: " + subjectId);
+                    }
+                })
+                .toList();
     }
 
     private OutstandingPersonEntity findOutstandingPersonById(Long id) {

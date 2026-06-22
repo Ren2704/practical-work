@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
-import java.util.List;
 
 @Repository
 public interface OutstandingPersonRepository extends JpaRepository<OutstandingPersonEntity, Long> {

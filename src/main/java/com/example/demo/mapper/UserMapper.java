@@ -1,6 +1,5 @@
 package com.example.demo.mapper;
 
-
 import com.example.demo.dao.entity.UserEntity;
 import com.example.demo.mapper.helper.UserMapperHelper;
 import com.example.model.UserCreateRequest;

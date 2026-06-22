@@ -7,6 +7,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class WebClientConfig {
+    private static final String HEADER = "x-api-key";
     @Bean
     public WebClient webClient(
             @Value("${compreface.api.url}") String url,
@@ -14,7 +15,7 @@ public class WebClientConfig {
 
         return WebClient.builder()
                 .baseUrl(url)
-                .defaultHeader("x-api-key", apiKey)
+                .defaultHeader(HEADER, apiKey)
                 .build();
     }
 }
