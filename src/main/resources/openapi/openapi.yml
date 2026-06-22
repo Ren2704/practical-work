@@ -1,0 +1,2215 @@
+openapi: 3.0.1
+
+info:
+  title: OpenAPI definition
+  version: v0
+
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+
+paths:
+  /users:
+    get:
+      tags:
+        - user-controller
+      summary: Отобразить всех пользователей
+      operationId: findAllUsers
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+    post:
+      tags:
+        - user-controller
+      summary: Создать нового пользователя
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        201:
+          description: Пользователь успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /users/{id}:
+    get:
+      tags:
+        - user-controller
+      summary: Отобразить пользователя по ID
+      operationId: findUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - user-controller
+      summary: Изменить информацию о пользователе по ID
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        200:
+          description: Пользователь успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    delete:
+      tags:
+        - user-controller
+      summary: Удалить пользователя по ID
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        204:
+          description: Пользователь успешно удален
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /academic-degrees:
+    get:
+      tags:
+        - academic-degree-controller
+      summary: Отобразить все учёные степени
+      operationId: findAllAcademicDegrees
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcademicDegreeResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+    post:
+      tags:
+        - academic-degree-controller
+      summary: Создать новую учёную степень
+      operationId: createAcademicDegree
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcademicDegreeCreateRequest'
+      responses:
+        201:
+          description: Ученая степень успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicDegreeResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /academic-degrees/deleted:
+    get:
+      tags:
+        - academic-degree-controller
+      summary: Отобразить все удаленные учёные степени
+      operationId: findAllDeletedAcademicDegrees
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcademicDegreeResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /academic-degrees/{id}:
+    get:
+      tags:
+        - academic-degree-controller
+      summary: Отобразить информацию об ученой степени по ID
+      operationId: findAcademicDegreeById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicDegreeResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - academic-degree-controller
+      summary: Изменить информацию об ученой степени  по ID
+      operationId: updateAcademicDegree
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcademicDegreeUpdateRequest'
+      responses:
+        200:
+          description: Ученая степень успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicDegreeResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /academic-degrees/deleted/{id}:
+    get:
+      tags:
+        - academic-degree-controller
+      summary: Отобразить информацию об удалённой ученой степени по ID
+      operationId: findDeletedAcademicDegreeById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicDegreeResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - academic-degree-controller
+      summary: Восстановить информацию об ученой степени  по ID
+      operationId: recoverAcademicDegree
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Ученая степень успешно восстановлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicDegreeResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /academic-titles:
+    get:
+      tags:
+        - academic-title-controller
+      summary: Отобразить все учёные звания
+      operationId: findAllAcademicTitles
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcademicTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+    post:
+      tags:
+        - academic-title-controller
+      summary: Создать новое учёное звание
+      operationId: createAcademicTitle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcademicTitleCreateRequest'
+      responses:
+        201:
+          description: Ученое звание успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /academic-titles/deleted:
+    get:
+      tags:
+        - academic-title-controller
+      summary: Отобразить все удаленные учёные звания
+      operationId: findAllDeletedAcademicTitles
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AcademicTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /academic-titles/{id}:
+    get:
+      tags:
+        - academic-title-controller
+      summary: Отобразить информацию об ученом звании по ID
+      operationId: findAcademicTitleById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - academic-title-controller
+      summary: Изменить информацию об ученом звании по ID
+      operationId: updateAcademicTitle
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcademicTitleUpdateRequest'
+      responses:
+        200:
+          description: Ученое звание успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /academic-titles/deleted/{id}:
+    get:
+      tags:
+        - academic-title-controller
+      summary: Отобразить информацию об удалённом ученом звании по ID
+      operationId: findDeletedAcademicTitleById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - academic-title-controller
+      summary: Восстановить информацию об ученом звании по ID
+      operationId: recoverAcademicTitle
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Ученое звание успешно восстановлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcademicTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /education-subjects:
+    get:
+      tags:
+        - education-subject-controller
+      summary: Отобразить все возможные научные направления
+      operationId: findAllEducationSubjects
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+    post:
+      tags:
+        - education-subject-controller
+      summary: Создать новое научное направление
+      operationId: createEducationSubject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EducationSubjectCreateRequest'
+      responses:
+        201:
+          description: Научное направление успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /education-subjects/deleted:
+    get:
+      tags:
+        - education-subject-controller
+      summary: Отобразить все удалённые научные направления
+      operationId: findAllDeletedEducationSubjects
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /education-subjects/{id}:
+    get:
+      tags:
+        - education-subject-controller
+      summary: Отобразить информацию о научном направлении по ID
+      operationId: findEducationSubjectById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - education-subject-controller
+      summary: Изменить информацию о научном направлении по ID
+      operationId: updateEducationSubject
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EducationSubjectUpdateRequest'
+      responses:
+        200:
+          description: Научное направление успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /education-subjects/deleted/{id}:
+    get:
+      tags:
+        - education-subject-controller
+      summary: Отобразить удалённую информацию о научном направлении по ID
+      operationId: findDeletedEducationSubjectById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - education-subject-controller
+      summary: Восстановить информацию о научном направлении по ID
+      operationId: recoverEducationSubject
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Научное направление успешно восстановлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EducationSubjectResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /achievements:
+    get:
+      tags:
+        - achievement-controller
+      summary: Отобразить все достижения
+      operationId: findAllAchievements
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+    post:
+      tags:
+        - achievement-controller
+      summary: Создать новую запись про достижение
+      operationId: createAchievement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AchievementCreateRequest'
+      responses:
+        201:
+          description: Достижение успешно создано
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /achievements/deleted:
+    get:
+      tags:
+        - achievement-controller
+      summary: Отобразить все удалённые достижения
+      operationId: findAllDeletedAchievements
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/{personId}/achievements:
+    get:
+      tags:
+        - achievement-controller
+      summary: Найти достижения по ID человека
+      operationId: findByPersonId
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Список достижений человека
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /achievements/{id}:
+    get:
+      tags:
+        - achievement-controller
+      summary: Отобразить запись заслуги по ID
+      operationId: findAchievementById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - achievement-controller
+      summary: Изменить запись заслуги по ID
+      operationId: updateAchievement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AchievementUpdateRequest'
+      responses:
+        200:
+          description: Достижение успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /achievements/deleted/{id}:
+    get:
+      tags:
+        - achievement-controller
+      summary: Отобразить удалённую запись заслуги по ID
+      operationId: findDeletedAchievementById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - achievement-controller
+      summary: Восстановить запись заслуги по ID
+      operationId: recoverAchievement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Достижение успешно восстановлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AchievementResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people:
+    get:
+      tags:
+        - outstanding-person-controller
+      summary: Отобразить всех выдающихся сотрудников
+      operationId: findAllOutstandingPeople
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSliceResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+    post:
+      tags:
+        - outstanding-person-controller
+      summary: Создать запись о новом сотруднике
+      operationId: createOutstandingPerson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutstandingPersonCreateRequest'
+      responses:
+        201:
+          description: Запись успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutstandingPersonResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/deleted:
+    get:
+      tags:
+        - outstanding-person-controller
+      summary: Отобразить всех удалённых выдающихся сотрудников
+      operationId: findAllDeletedOutstandingPeople
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSliceResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/{id}:
+    get:
+      tags:
+        - outstanding-person-controller
+      summary: Отобразить сотрудника по его ID
+      operationId: findOutstandingPersonById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Найденный выдающийся человек
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutstandingPersonResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - outstanding-person-controller
+      summary: Изменить информацию о сотруднике по ID
+      operationId: updateOutstandingPerson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutstandingPersonUpdateRequest'
+      responses:
+        200:
+          description: Запись успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutstandingPersonResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/{id}/photo:
+    get:
+      tags:
+        - outstanding-person-controller
+      summary: Получить фото пользователя
+      operationId: getPersonPhoto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Фото пользователя
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+
+    put:
+      tags:
+        - outstanding-person-controller
+      summary: Обновить фото пользователя
+      operationId: updatePersonPhoto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PersonPhotoRequest'
+            encoding:
+              photo:
+                contentType: image/jpeg
+      responses:
+        200:
+          description: Фото успешно обновлено
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhotoResponse'
+
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/recognize:
+    post:
+      tags:
+        - outstanding-person-controller
+      summary: Распознать сотрудника по фото
+      operationId: recognizePersonPhoto
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PersonPhotoRequest'
+            encoding:
+              photo:
+                contentType: image/jpeg
+      responses:
+        200:
+          description: Похожие сотрудники
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/deleted/{id}:
+    get:
+      tags:
+        - outstanding-person-controller
+      summary: Отобразить удалённого сотрудника по его ID
+      operationId: findDeletedOutstandingPersonById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Найденный выдающийся человек
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutstandingPersonResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - outstanding-person-controller
+      summary: Восстановить информацию о сотруднике по ID
+      operationId: recoverOutstandingPerson
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Запись успешно восстановлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutstandingPersonResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/search/by-name:
+    get:
+      tags:
+        - outstanding-person-controller
+      summary: Отобразить сотрудников по имени
+      operationId: findOutstandingPersonByName
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Имя для поиска
+          example: "Иван"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
+      responses:
+        200:
+          description: Список найденных выдающихся людей
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSliceResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/search/by-surname:
+    get:
+      tags:
+        - outstanding-person-controller
+      summary: Отобразить сотрудников по фамилии
+      operationId: findOutstandingPersonBySurname
+      parameters:
+        - name: surname
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Фамилия для поиска
+          example: "Петров"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
+      responses:
+        200:
+          description: Список найденных выдающихся людей
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSliceResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/search/by-name-and-surname:
+    get:
+      tags:
+        - outstanding-person-controller
+      summary: Отобразить сотрудника по имени и фамилии
+      operationId: findOutstandingPersonByNameAndSurname
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Имя для поиска
+          example: "Иван"
+        - name: surname
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Фамилия для поиска
+          example: "Петров"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+          description: Страница поиска
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: Кол-во данных на странице
+      responses:
+        200:
+          description: Список найденных выдающихся людей
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonSliceResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /job-titles:
+    get:
+      tags:
+        - job-title-controller
+      summary: Отобразить все возможные должности
+      operationId: findAllJobTitles
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+    post:
+      tags:
+        - job-title-controller
+      summary: Создать новую должность
+      operationId: createJobTitle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobTitleCreateRequest'
+      responses:
+        201:
+          description: Должность успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /job-titles/deleted:
+    get:
+      tags:
+        - job-title-controller
+      summary: Отобразить все удалённые должности
+      operationId: findAllDeletedJobTitles
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /job-titles/{id}:
+    get:
+      tags:
+        - job-title-controller
+      summary: Отобразить информацию о должности по ID
+      operationId: findJobTitleById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - job-title-controller
+      summary: Изменить информацию о должности по ID
+      operationId: updateJobTitle
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobTitleUpdateRequest'
+      responses:
+        200:
+          description: Должность успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /job-titles/deleted/{id}:
+    get:
+      tags:
+        - job-title-controller
+      summary: Отобразить удалённую информацию о должности по ID
+      operationId: findDeletedJobTitleById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - job-title-controller
+      summary: Восстановить информацию о должности по ID
+      operationId: recoverJobTitle
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Должность успешно восстановлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobTitleResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /person-jobs:
+    get:
+      tags:
+        - person-job-controller
+      summary: Отобразить все записи
+      operationId: findAllPersonJob
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    post:
+      tags:
+        - person-job-controller
+      summary: Создать новую связующую запись сотрудник-должность
+      operationId: createPersonJob
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonJobCreateRequest'
+      responses:
+        201:
+          description: Запись успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+
+  /person-jobs/deleted:
+    get:
+      tags:
+        - person-job-controller
+      summary: Отобразить все удалённые записи
+      operationId: findAllDeletedPersonJob
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /person-jobs/{id}:
+    get:
+      tags:
+        - person-job-controller
+      summary: Отобразить связующую запись по ID
+      operationId: findPersonJobById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - person-job-controller
+      summary: Изменить связующую запись по ID
+      operationId: updatePersonJob
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonJobUpdateRequest'
+      responses:
+        200:
+          description: Запись успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /person-jobs/deleted/{id}:
+    get:
+      tags:
+        - person-job-controller
+      summary: Отобразить удалённую запись по ID
+      operationId: findDeletedPersonJobById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+    put:
+      tags:
+        - person-job-controller
+      summary: Восстановить связующую запись по ID
+      operationId: recoverPersonJob
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      responses:
+        200:
+          description: Запись успешно восстановлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/{personId}/jobs:
+    get:
+      tags:
+        - person-job-controller
+      summary: Найти все должности сотрудника по его ID
+      operationId: findPersonJobByPersonId
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID сотрудника
+          example: 5
+      responses:
+        200:
+          description: Список должностей сотрудника
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+  /outstanding-people/{personId}/jobs/current:
+    get:
+      tags:
+        - person-job-controller
+      summary: Найти текущую должность сотрудника по его ID
+      operationId: findPersonJobByPersonIdAndCurrent
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID сотрудника
+          example: 5
+      responses:
+        200:
+          description: Текущая должность сотрудника
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonJobResponse'
+        400:
+          $ref: '#/components/responses/400'
+        404:
+          $ref: '#/components/responses/404'
+        500:
+          $ref: '#/components/responses/500'
+
+components:
+
+  schemas:
+
+    PersonPhotoRequest:
+      type: object
+      properties:
+        photo:
+          type: string
+          format: binary
+          description: Фото пользователя
+      required:
+        - photo
+
+    PhotoResponse:
+      type: object
+      properties:
+        photoLink:
+          type: string
+          description: Url к фото пользователя
+        contentType:
+          type: string
+          example: image/jpeg
+          description: JPG type изображения
+      required:
+        - photoLink
+        - contentType
+
+    AcademicDegreeCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Название ученой степени
+          example: "доктор наук"
+        shortName:
+          type: string
+          description: Сокращенное название
+          example: "д.н."
+      required:
+        - name
+
+    AcademicDegreeUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AcademicDegreeCreateRequest'
+        - type: object
+          properties:
+            isDeleted:
+              type: boolean
+              default: false
+              nullable: true
+
+    AcademicDegreeResponse:
+      allOf:
+        - $ref: '#/components/schemas/AcademicDegreeCreateRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: ID учёной степени
+          required:
+            - id
+
+    AcademicTitleCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Название ученого звания
+          example: "профессор"
+        shortName:
+          type: string
+          description: Сокращенное название
+          example: "проф."
+      required:
+        - name
+
+    AcademicTitleUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AcademicTitleCreateRequest'
+        - type: object
+          properties:
+            isDeleted:
+              type: boolean
+              default: false
+              nullable: true
+
+    AcademicTitleResponse:
+      allOf:
+        - $ref: '#/components/schemas/AcademicTitleCreateRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: ID учёного звания
+          required:
+            - id
+
+    Achievement:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Название достижения
+          example: "Нобелевская премия"
+        year:
+          type: integer
+          format: int32
+          description: Год получения достижения
+          example: 2020
+        description:
+          type: string
+          description: Описание достижения
+          example: "За открытие в области физики"
+      required:
+        - title
+
+    AchievementResponse:
+      allOf:
+        - $ref: '#/components/schemas/Achievement'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: ID достижения
+          required:
+            - id
+
+    AchievementCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/Achievement'
+        - type: object
+          properties:
+            personId:
+              type: integer
+              format: int64
+              description: Идентификатор человека, связанного с достижением
+              example: 5
+          required:
+            - personId
+
+    AchievementUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/AchievementCreateRequest'
+        - type: object
+          properties:
+            isDeleted:
+              type: boolean
+              default: false
+              nullable: true
+
+    EducationSubjectCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Название учебного предмета
+          example: "экономика"
+        shortName:
+          type: string
+          description: Сокращенное название предмета
+          example: "эконом."
+      required:
+        - name
+
+    EducationSubjectUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/EducationSubjectCreateRequest'
+        - type: object
+          properties:
+            isDeleted:
+              type: boolean
+              default: false
+              nullable: true
+
+    EducationSubjectResponse:
+      allOf:
+        - $ref: '#/components/schemas/EducationSubjectCreateRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: ID научного направления
+          required:
+            - id
+
+    JobTitleCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Название должности
+          example: "директор"
+      required:
+        - name
+
+    JobTitleUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/JobTitleCreateRequest'
+        - type: object
+          properties:
+            isDeleted:
+              type: boolean
+              default: false
+              nullable: true
+
+    JobTitleResponse:
+      allOf:
+        - $ref: '#/components/schemas/JobTitleCreateRequest'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: ID должности
+          required:
+            - id
+
+    PersonResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID человека
+        name:
+          type: string
+          description: Имя
+        surname:
+          type: string
+          description: Фамилия
+        patronymic:
+          type: string
+          description: Отчество
+      required:
+        - id
+        - name
+        - surname
+        - patronymic
+
+    PersonSliceResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonResponse'
+        page:
+          type: integer
+          example: 0
+        size:
+            type: integer
+            example: 10
+        hasNext:
+          type: boolean
+          example: true
+
+    OutstandingPersonResponse:
+      allOf:
+        - $ref: '#/components/schemas/PersonResponse'
+        - type: object
+          properties:
+            gender:
+              type: string
+              enum: [ NOT_SELECTED, MALE, FEMALE ]
+              description: Пол
+            yearOfBirth:
+              type: integer
+              format: int32
+              description: Год рождения
+            yearOfDeath:
+              type: integer
+              format: int32
+              description: Год смерти
+            biography:
+              type: string
+              description: Краткая биография
+            academicDegree:
+              allOf:
+                - $ref: '#/components/schemas/AcademicDegreeResponse'
+                - type: object
+              nullable: true
+              readOnly: true
+            academicTitle:
+              allOf:
+                - $ref: '#/components/schemas/AcademicTitleResponse'
+                - type: object
+              nullable: true
+              readOnly: true
+            educationSubject:
+              allOf:
+                - $ref: '#/components/schemas/EducationSubjectResponse'
+                - type: object
+              nullable: true
+              readOnly: true
+
+    OutstandingPersonCreateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Имя
+          example: "Геннадий"
+        surname:
+          type: string
+          description: Фамилия
+          example: "Хацкевич"
+        patronymic:
+          type: string
+          description: Отчество
+          example: "Алексеевич"
+        gender:
+          type: string
+          enum: [ NOT_SELECTED, MALE, FEMALE ]
+          default: NOT_SELECTED
+          description: Пол
+          example: "MALE"
+        yearOfBirth:
+          type: integer
+          format: int32
+          description: Год рождения
+          example: 1950
+        yearOfDeath:
+          type: integer
+          format: int32
+          nullable: true
+          description: Год смерти
+        photoUrl:
+          type: string
+          description: URL фотографии
+        biography:
+          type: string
+          description: Краткая биография
+        academicTitle:
+          type: string
+          nullable: true
+          description: Название ученого звания
+          example: "профессор"
+        academicDegree:
+          type: string
+          nullable: true
+          description: Название ученой степени
+          example: "доктор"
+        educationSubject:
+          type: string
+          nullable: true
+          description: Название учебного предмета
+          example: "экономика"
+      required:
+        - name
+        - surname
+        - patronymic
+
+    OutstandingPersonUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/OutstandingPersonCreateRequest'
+        - type: object
+          properties:
+            isDeleted:
+              type: boolean
+              default: false
+              nullable: true
+
+    PersonJobResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID записи
+        jobTitle:
+          allOf:
+            - $ref: '#/components/schemas/JobTitleResponse'
+            - type: object
+          readOnly: true
+        startYear:
+          type: integer
+          format: int32
+          description: Год начала работы
+        endYear:
+          type: integer
+          format: int32
+          description: Год окончания работы
+        current:
+          type: boolean
+          description: Является ли должность актуальной
+      required:
+          - id
+
+    PersonJobCreateRequest:
+      type: object
+      properties:
+        startYear:
+          type: integer
+          format: int32
+          nullable: true
+          description: Год начала работы
+          example: 2010
+        endYear:
+          type: integer
+          format: int32
+          nullable: true
+          description: Год окончания работы (не вводить, если должность актуальна)
+        current:
+          type: boolean
+          default: false
+          description: Является ли должность актуальной
+          example: false
+        personId:
+          type: integer
+          format: int64
+          description: Идентификатор человека, к которому относится запись
+          example: 1
+        jobTitle:
+          type: string
+          description: Название должности
+          example: "ректор"
+      required:
+        - personId
+        - jobTitle
+
+    PersonJobUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/PersonJobCreateRequest'
+        - type: object
+          properties:
+            isDeleted:
+              type: boolean
+              default: false
+              nullable: true
+
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID пользователя
+        login:
+          type: string
+          description: Логин пользователя
+        role:
+          type: string
+          description: Роль пользователя
+      required:
+        - id
+        - login
+        - role
+
+    UserCreateRequest:
+      type: object
+      properties:
+        login:
+          type: string
+          maxLength: 50
+          description: Логин пользователя
+          example: "admin4"
+        password:
+          type: string
+          maxLength: 100
+          description: Пароль пользователя
+          example: "admin4"
+        role:
+          type: string
+          enum: [ NOT_SELECTED, ADMIN, EDITOR ]
+          description: Роль пользователя
+          default: NOT_SELECTED
+          example: "ADMIN"
+      required:
+        - login
+        - password
+
+    UserUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/UserCreateRequest'
+        - type: object
+
+  responses:
+    400:
+      description: Некорректный запрос
+    404:
+      description: Ресурс не найден
+    500:
+      description: Внутренняя ошибка сервера

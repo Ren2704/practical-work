@@ -1,16 +1,19 @@
 package com.example.demo.service;
 
-import com.example.demo.controller.request.job.person.PersonJobCreateRequest;
-import com.example.demo.controller.request.job.person.PersonJobUpdateRequest;
-import com.example.demo.entity.PersonJobEntity;
+import com.example.model.PersonJobCreateRequest;
+import com.example.model.PersonJobResponse;
+import com.example.model.PersonJobUpdateRequest;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PersonJobService {
-    List<PersonJobEntity> findAll();
-    Optional<PersonJobEntity> findById(Long id);
-    PersonJobEntity create(PersonJobCreateRequest personJobCreateRequest);
-    PersonJobEntity update(PersonJobUpdateRequest personJobUpdateRequest);
-    void delete(Long id);
+    List<PersonJobResponse> findAll();
+    List<PersonJobResponse> findAllDeleted();
+    List<PersonJobResponse> findByPersonId(Long personId);
+    PersonJobResponse findByPersonIdAndCurrent(Long personId);
+    PersonJobResponse findById(Long id);
+    PersonJobResponse findDeletedById(Long id);
+    PersonJobResponse create(PersonJobCreateRequest personJobCreateRequest);
+    PersonJobResponse update(PersonJobUpdateRequest personJobUpdateRequest, Long id);
+    PersonJobResponse recover (Long id);
 }
